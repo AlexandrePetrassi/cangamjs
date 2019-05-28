@@ -21,17 +21,17 @@
 //  properly. Please, refer to their documentation to find what each module
 //  requires.
 //  The following attributes are mandatory:
-//	  targetID : The ID of the div where the CanGam will be inserted.
-//	  config   : The configuration script's path. (without extension)
+//    targetID : The ID of the div where the CanGam will be inserted.
+//    config   : The configuration script's path. (without extension)
 //		
 //  Example
-//	  <script src='CanGam.js' targetID='CanGam' config='Config'></script>
+//    <script src='CanGam.js' targetID='CanGam' config='Config'></script>
 //=============================================================================
 !function CanGam (
   // List of script paths which are going to be loaded by this CanGam instance
   modules = [
     'Canvas',
-	'Main',
+    'Main',
   ],
 ){
   //---------------------------------------------------------------------------
@@ -45,8 +45,8 @@
   //---------------------------------------------------------------------------
   function initialize() {
     attributes    = extractAttributes();
-	cangam        = {attributes : attributes};
-	sources       = [attributes.config].concat(modules);
+    cangam        = {attributes : attributes};
+    sources       = [attributes.config].concat(modules);
   }
   //---------------------------------------------------------------------------
   // * loadScripts : callback(DOMContentLoaded)
@@ -55,9 +55,9 @@
   //  CanGam to work.
   //---------------------------------------------------------------------------
   document.addEventListener('DOMContentLoaded', function loadScripts() {
-	sources
+    sources
       .map(source => createScriptElement(source))
-	  .map(script => runScript(script));
+      .map(script => runScript(script));
   })
   //---------------------------------------------------------------------------
   // * createScriptElement
@@ -70,11 +70,11 @@
   //---------------------------------------------------------------------------
   function createScriptElement(source) {
     let script    = document.createElement('script');
-	script.src    = source + '.js';
-	script.async  = false;
-	script.cangam = cangam;
-	script.self   = (cangam[source] = {cangam : cangam})
-	return script;
+    script.src    = source + '.js';
+    script.async  = false;
+    script.cangam = cangam;
+    script.self   = (cangam[source] = {cangam : cangam})
+    return script;
   }
   //---------------------------------------------------------------------------
   // * runScript
@@ -118,7 +118,7 @@
   //---------------------------------------------------------------------------
   !function autoStart() {
     initialize();
-	cleanup();
+    cleanup();
   }()
 }()
 //=============================================================================
