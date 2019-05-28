@@ -14,8 +14,10 @@
   self.canvas = {
     style : {
       backgroundColor : '#124',
-      width           : 800,
-      height          : 600
+      borderStyle     : 'solid',
+      borderColor     : '#4CC',
+      width           : '800px',
+      height          : '600px'
     }
   }
 }()
