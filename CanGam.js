@@ -24,7 +24,7 @@
 //    config    : The configuration script's path. (without extension)
 //		
 //  Example
-//    <script src='CanGam.js' targetID='CanGam' config='Config'></script>
+//    <script src='CanGam.js' target_id='CanGam' config='Config'></script>
 //=============================================================================
 !function CanGam (
   // List of script paths which are going to be loaded by this CanGam instance
