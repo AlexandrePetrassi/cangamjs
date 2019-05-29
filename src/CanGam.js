@@ -95,7 +95,7 @@
   //
   //	returns : The script element node.
   //---------------------------------------------------------------------------
-  function createScriptElement(source, namespace = source){
+  function createScriptElement(source, namespace = source) {
     let script    = document.createElement('script');
     script.src    = source + '.js';
     script.async  = false;
