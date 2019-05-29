@@ -19,12 +19,16 @@
 //  Each CanGam dependency may require some extra attributes to function
 //  properly. Please, refer to their documentation to find what each module
 //  requires.
+//  Forwarded attributes can be referenced by cangam.attributes['attr'], where
+//  'attr' is the attribute name in lowercase.
+//
 //  The following attributes are mandatory:
 //    target_id : The ID of the div where the CanGam will be inserted.
 //    config    : The configuration script's path. (without extension)
 //		
 //  Example
 //    <script src='CanGam.js' target_id='CanGam' config='Config'></script>
+//
 //=============================================================================
 !function CanGam (
   // List of script paths which are going to be loaded by this CanGam instance
