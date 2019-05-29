@@ -13,9 +13,9 @@
   self.extraModules = [];
   self.canvas = {
     style : {
-      backgroundColor : '#124',
-      borderStyle     : 'solid',
-      borderColor     : '#4CC',
+      backgroundColor : '#421',
+      borderStyle     : 'dotted',
+      borderColor     : '#CC4',
       width           : '800px',
       height          : '600px'
     }

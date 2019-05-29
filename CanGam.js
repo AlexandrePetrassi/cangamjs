@@ -36,43 +36,67 @@
   //---------------------------------------------------------------------------
   // private fields declaration
   //---------------------------------------------------------------------------
-  let attributes, sources, cangam;
+  let attributes, cangam;
   //---------------------------------------------------------------------------
   // * initialize
   //---------------------------------------------------------------------------
   //  Initializes the private fields
   //---------------------------------------------------------------------------
   function initialize() {
-    attributes    = extractAttributes();
-    cangam        = {attributes : attributes};
-    sources       = [attributes.config].concat(modules);
+    attributes = extractAttributes();
+    cangam     = {attributes : attributes};
+    sources    = [attributes.config].concat(modules);
   }
   //---------------------------------------------------------------------------
   // * loadScripts : callback(DOMContentLoaded)
   //---------------------------------------------------------------------------
   //  Loads the configuration script and every other script required for the
-  //  CanGam to work.
+  //  CanGam to work, including extra modules defined in the configuration file
   //---------------------------------------------------------------------------
   document.addEventListener('DOMContentLoaded', function loadScripts() {
-    sources
+    loadConfigFile().addEventListener('load', loadModules);
+  })
+  //---------------------------------------------------------------------------
+  // * loadConfigFile
+  //---------------------------------------------------------------------------
+  //  Loads the configuration file while defining it to the 'Config' namespace
+  //  instead of attributing it to a namespace named after its filepath.
+  //
+  //    returns : The configuration script node
+  //---------------------------------------------------------------------------
+  function loadConfigFile() {
+    return runScript(createScriptElement(attributes.config, 'Config'));
+  }
+  //---------------------------------------------------------------------------
+  // * loadModules
+  //---------------------------------------------------------------------------
+  //  Loads every module necessary for the cangam to work, including the
+  //  extra modules defined in the Config file.
+  //
+  //    returns : List of loaded script nodes
+  //---------------------------------------------------------------------------
+  function loadModules() {
+    sources = modules.concat(cangam.Config.extraModules);
+    return sources
       .map(source => createScriptElement(source))
       .map(script => runScript(script));
-  })
+  }
   //---------------------------------------------------------------------------
   // * createScriptElement
   //---------------------------------------------------------------------------
   //  Creates a non appended script element and initializes its attributes,
   //  then returns it.
-  //	source : The script's source path.
+  //	source    : The script's source path.
+  //    namespace : custom namespace name. Default value is the source name.
   //
   //	returns : The script element node.
   //---------------------------------------------------------------------------
-  function createScriptElement(source) {
+  function createScriptElement(source, namespace = source){
     let script    = document.createElement('script');
     script.src    = source + '.js';
     script.async  = false;
     script.cangam = cangam;
-    script.self   = (cangam[source] = {cangam : cangam})
+    script.self   = (cangam[namespace] = {cangam : cangam});
     return script;
   }
   //---------------------------------------------------------------------------
@@ -81,10 +105,13 @@
   //  Runs a script element by appending and instantly de-appending it to the
   //  page's body.
   //    script : The script element node
+  //
+  //    returns : The script element node
   //---------------------------------------------------------------------------
   function runScript(script) {
     document.head.appendChild(script);
     document.head.removeChild(script);
+    return script;
   }
   //---------------------------------------------------------------------------
   // * extractAttributes
