@@ -6,19 +6,19 @@
 //  Initializes and Manages the Main Loop of this CanGam instance.
 //=============================================================================
 !function Main(
-  self = document.currentScript.self,
-  other = document.currentScript.cangam.Canvas
+  self   = document.currentScript.self,
+  Events = self.cangam.Events
 ){
   let baseFrameRate, onUpdate, onDraw;
   function initialize() {
     baseFrameRate = 1/60;
-    onUpdate      = [];
-    onDraw        = [];
-    document.setInterval(mainLoop, baseFrameRate);
+    onUpdate      = new Events.Event;
+    onDraw        = new Events.Event;
+    window.setInterval(mainLoop, baseFrameRate);
   }
   function mainLoop() {
-    onUpdate.map(callback => callback());
-    onDraw  .map(callback => callback());
+    onUpdate.invoke();
+    onDraw  .invoke();
   }
   !function autoStart(){
     initialize();
