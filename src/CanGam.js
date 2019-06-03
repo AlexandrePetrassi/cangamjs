@@ -31,6 +31,7 @@
 !function CanGam (
   // List of script paths which are going to be loaded by this CanGam instance
   modules = [
+    'Events',
     'Canvas',
     'Main',
   ],
