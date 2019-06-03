@@ -7,17 +7,35 @@
   self   = document.currentScript.self,
   Events = self.cangam.Events
 ){
+  //---------------------------------------------------------------------------
+  // private fields declaration
+  //---------------------------------------------------------------------------
   let baseFrameRate, onUpdate, onDraw;
+  //---------------------------------------------------------------------------
+  // * initialize
+  //---------------------------------------------------------------------------
+  //  Initializes the private fields
+  //---------------------------------------------------------------------------
   function initialize() {
     baseFrameRate = 1/60;
     onUpdate      = new Events.Event;
     onDraw        = new Events.Event;
     window.setInterval(mainLoop, baseFrameRate);
   }
+  //---------------------------------------------------------------------------
+  // * mainLoop
+  //---------------------------------------------------------------------------
+  //  Executes the main events at every frame
+  //---------------------------------------------------------------------------
   function mainLoop() {
     onUpdate.invoke();
     onDraw  .invoke();
   }
+  //---------------------------------------------------------------------------
+  // * autoStart
+  //---------------------------------------------------------------------------
+  //  Automatically starts this script, such as invoking the initialize method.
+  //---------------------------------------------------------------------------
   !function autoStart(){
     initialize();
   }()
