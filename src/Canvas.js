@@ -11,7 +11,9 @@
   //---------------------------------------------------------------------------
   // private fields declaration
   //---------------------------------------------------------------------------
-  let targetID, parentNode, canvas;
+  let targetID;              // id attribute for the div to receive the canvas
+  let parentNode;            // div which will receive the canvas
+  let canvas;                // canvas element that will be inserted in the div
   //---------------------------------------------------------------------------
   // * initialize
   //---------------------------------------------------------------------------

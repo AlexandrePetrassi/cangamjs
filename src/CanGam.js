@@ -37,7 +37,9 @@
   //---------------------------------------------------------------------------
   // private fields declaration
   //---------------------------------------------------------------------------
-  let attributes, cangam, sources;
+  let attributes;            // Hash of attributes passed in the script tag
+  let cangam;                // The cangam instance object holding every module
+  let sources;               // The source path of each module plus the config
   //---------------------------------------------------------------------------
   // * initialize
   //---------------------------------------------------------------------------
