@@ -10,7 +10,9 @@
   //---------------------------------------------------------------------------
   // private fields declaration
   //---------------------------------------------------------------------------
-  let baseFrameRate, onUpdate, onDraw;
+  let baseFrameRate;         // Main loop refresh rate
+  let onUpdate;              // Update event called every frame
+  let onDraw;                // Draw event called every frame
   //---------------------------------------------------------------------------
   // * initialize
   //---------------------------------------------------------------------------
