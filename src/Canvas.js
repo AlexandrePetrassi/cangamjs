@@ -31,11 +31,11 @@
   //  Initializes the private fields
   //---------------------------------------------------------------------------
   function createCanvas(style = {}) {
-    let canvas        = document.createElement('canvas');
+    let canvasElement = document.createElement('canvas');
     let styles        = Object.entries(style);
-    let styleMapping  = (key, value) => canvas.style[key] = value;
+    let styleMapping  = (key, value) => canvasElement.style[key] = value;
     styles.map(pair => styleMapping(...pair));
-    return canvas;
+    return canvasElement;
   }
   //---------------------------------------------------------------------------
   // * autoStart
