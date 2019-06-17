@@ -1,14 +1,14 @@
 //=============================================================================
-//  ► DESCRIPTION
+//  ► CanGam
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 //  This script acts as a loader, Initializing a CanGam instance and thereafter
 //  loading all its dependencies while forwarding info into them.
 //=============================================================================
-//  ► IIFE PARAMETERS
+//  IIFE PARAMETERS
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 //    modules  : Script paths which will be loaded as CanGam Modules.
 //=============================================================================
-//  ► SCRIPT TAG'S ADDITIONAL ATTRIBUTES
+//  SCRIPT TAG'S ADDITIONAL ATTRIBUTES
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 //  This script will also forward every attribute declared alongside the
 //  original <script> tag which called this CanGam instance.
@@ -41,9 +41,7 @@
   let cangam;                // The cangam instance object holding every module
   let sources;               // The source path of each module plus the config
   //---------------------------------------------------------------------------
-  // * initialize
-  //---------------------------------------------------------------------------
-  //  Initializes the private fields
+  //  * Initializes the private fields
   //---------------------------------------------------------------------------
   function initialize() {
     attributes = extractAttributes();
@@ -51,18 +49,14 @@
     sources    = [attributes.config].concat(modules);
   }
   //---------------------------------------------------------------------------
-  // * loadScripts : callback(DOMContentLoaded)
-  //---------------------------------------------------------------------------
-  //  Loads the configuration script and every other script required for the
+  //  * Loads the configuration script and every other script required for the
   //  CanGam to work, including extra modules defined in the configuration file
   //---------------------------------------------------------------------------
   document.addEventListener('DOMContentLoaded', function loadScripts() {
     loadConfigFile().addEventListener('load', loadModules);
   })
   //---------------------------------------------------------------------------
-  // * loadConfigFile
-  //---------------------------------------------------------------------------
-  //  Loads the configuration file while defining it to the 'Config' namespace
+  //  * Loads the configuration file while defining it to the Config namespace
   //  instead of attributing it to a namespace named after its filepath.
   //
   //    returns : The configuration script node
@@ -71,9 +65,7 @@
     return runScript(createScriptElement(attributes.config, 'Config'));
   }
   //---------------------------------------------------------------------------
-  // * loadModules
-  //---------------------------------------------------------------------------
-  //  Loads every module necessary for the cangam to work, including the
+  //  * Loads every module necessary for the cangam to work, including the
   //  extra modules defined in the Config file.
   //
   //    returns : List of loaded script nodes
@@ -85,10 +77,9 @@
       .map(script => runScript(script));
   }
   //---------------------------------------------------------------------------
-  // * createScriptElement
-  //---------------------------------------------------------------------------
-  //  Creates a non appended script element and initializes its attributes,
+  //  * Creates a non appended script element and initializes its attributes,
   //  then returns it.
+  //
   //	source    : The script's source path.
   //    namespace : custom namespace name. Default value is the source name.
   //
@@ -103,9 +94,7 @@
     return script;
   }
   //---------------------------------------------------------------------------
-  // * runScript
-  //---------------------------------------------------------------------------
-  //  Runs a script element by appending and instantly de-appending it to the
+  //  * Runs a script element by appending and instantly de-appending it to the
   //  page's body.
   //    script : The script element node
   //
@@ -117,9 +106,7 @@
     return script;
   }
   //---------------------------------------------------------------------------
-  // * extractAttributes
-  //---------------------------------------------------------------------------
-  //  Extracts the attributes nodeList from the script tag and converts it to
+  //  * Extracts the attributes nodeList from the script tag and converts it to
   //  a plain object notation which can be passed as additional arguments to
   //  the other modules of this script
   //
@@ -133,17 +120,13 @@
     return list;
   }
   //---------------------------------------------------------------------------
-  // * cleanup
-  //---------------------------------------------------------------------------
-  //  Performs cleanup operations, such as deleting the original script node.
+  //  * Performs cleanup operations, such as deleting the original script node.
   //---------------------------------------------------------------------------
   function cleanup() {
     document.currentScript.parentNode.removeChild(document.currentScript);
   }
   //---------------------------------------------------------------------------
-  // * autoStart
-  //---------------------------------------------------------------------------
-  //  Automatically starts this script, such as invoking the initialize method.
+  //  * Automatically starts the script, such as invoking the initialize method
   //---------------------------------------------------------------------------
   !function autoStart() {
     initialize();

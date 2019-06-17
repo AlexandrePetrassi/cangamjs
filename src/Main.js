@@ -1,5 +1,5 @@
 //=============================================================================
-//  ► DESCRIPTION
+//  ► Main
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 //  Initializes and Manages the Main Loop of this CanGam instance.
 //=============================================================================
@@ -14,9 +14,7 @@
   let onUpdate;              // Update event called every frame
   let onDraw;                // Draw event called every frame
   //---------------------------------------------------------------------------
-  // * initialize
-  //---------------------------------------------------------------------------
-  //  Initializes the private fields
+  //  * Initializes the private fields
   //---------------------------------------------------------------------------
   function initialize() {
     baseFrameRate = 1/60;
@@ -25,18 +23,14 @@
     window.setInterval(mainLoop, baseFrameRate);
   }
   //---------------------------------------------------------------------------
-  // * mainLoop
-  //---------------------------------------------------------------------------
-  //  Executes the main events at every frame
+  //  * Executes the main events at every frame
   //---------------------------------------------------------------------------
   function mainLoop() {
     onUpdate.invoke();
     onDraw  .invoke();
   }
   //---------------------------------------------------------------------------
-  // * autoStart
-  //---------------------------------------------------------------------------
-  //  Automatically starts this script, such as invoking the initialize method.
+  //  * Automatically starts the script, such as invoking the initialize method
   //---------------------------------------------------------------------------
   !function autoStart(){
     initialize();

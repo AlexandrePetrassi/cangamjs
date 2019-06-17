@@ -1,5 +1,5 @@
 //=============================================================================
-//  ► DESCRIPTION
+//  ► Canvas
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 //  Initializes and Manages the Canvas inside the CanGam instance.
 //=============================================================================
@@ -9,15 +9,13 @@
   Config = cangam.Config
 ){
   //---------------------------------------------------------------------------
-  // private fields declaration
+  //  private fields declaration
   //---------------------------------------------------------------------------
   let targetID;              // id attribute for the div to receive the canvas
   let parentNode;            // div which will receive the canvas
   let canvas;                // canvas element that will be inserted in the div
   //---------------------------------------------------------------------------
-  // * initialize
-  //---------------------------------------------------------------------------
-  //  Initializes the private fields
+  //  * Initializes the private fields
   //---------------------------------------------------------------------------
   function initialize() {
     targetID   = cangam.attributes.target_id;
@@ -26,9 +24,7 @@
     parentNode.appendChild(canvas);
   }
   //---------------------------------------------------------------------------
-  // * createCanvas
-  //---------------------------------------------------------------------------
-  //  Creates a stylized Canvas element using the Config file data.
+  //  * Creates a stylized Canvas element using the Config file data.
   //---------------------------------------------------------------------------
   function createCanvas(style = {}) {
     let canvasElement = document.createElement('canvas');
@@ -38,9 +34,7 @@
     return canvasElement;
   }
   //---------------------------------------------------------------------------
-  // * autoStart
-  //---------------------------------------------------------------------------
-  //  Automatically starts this script, such as invoking the initialize method.
+  //  * Automatically starts the script, such as invoking the initialize method
   //---------------------------------------------------------------------------
   !function autoStart() {
     initialize();
