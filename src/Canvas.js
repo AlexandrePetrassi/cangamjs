@@ -28,7 +28,7 @@
   //---------------------------------------------------------------------------
   // * createCanvas
   //---------------------------------------------------------------------------
-  //  Initializes the private fields
+  //  Creates a stylized Canvas element using the Config file data.
   //---------------------------------------------------------------------------
   function createCanvas(style = {}) {
     let canvasElement = document.createElement('canvas');
