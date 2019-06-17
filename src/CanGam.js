@@ -113,10 +113,10 @@
   //    returns : object mapping attribute name => attribute value
   //---------------------------------------------------------------------------
   function extractAttributes(node = document.currentScript) {
-    let list, attributes, pair;
-    list       = {};
-    attributes = Array.prototype.slice.call(node.attributes);
-    while(pair = attributes.pop()) list[pair.nodeName] = pair.nodeValue;
+    let list, attrs, pair;
+    list  = {};
+    attrs = Array.prototype.slice.call(node.attributes);
+    while(pair = attrs.pop()) list[pair.nodeName] = pair.nodeValue;
     return list;
   }
   //---------------------------------------------------------------------------
