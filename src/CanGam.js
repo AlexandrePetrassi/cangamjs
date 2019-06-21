@@ -39,43 +39,37 @@
   //---------------------------------------------------------------------------
   let attributes;            // Hash of attributes passed in the script tag
   let cangam;                // The cangam instance object holding every module
-  let sources;               // The source path of each module plus the config
   //---------------------------------------------------------------------------
   //  * Initializes the private fields
   //---------------------------------------------------------------------------
-  function initialize() {
+  const initialize = () => {
     attributes = extractAttributes();
     cangam     = {attributes : attributes};
-    sources    = [attributes.config].concat(modules);
   }
   //---------------------------------------------------------------------------
   //  * Loads the configuration script and every other script required for the
   //  CanGam to work, including extra modules defined in the configuration file
   //---------------------------------------------------------------------------
-  document.addEventListener('DOMContentLoaded', function loadScripts() {
-    loadConfigFile().addEventListener('load', loadModules);
-  })
+  document.addEventListener('DOMContentLoaded', () =>
+    loadConfigFile().addEventListener('load', loadModules));
   //---------------------------------------------------------------------------
   //  * Loads the configuration file while defining it to the Config namespace
   //  instead of attributing it to a namespace named after its filepath.
   //
   //    returns : The configuration script node
   //---------------------------------------------------------------------------
-  function loadConfigFile() {
-    return runScript(createScriptElement(attributes.config, 'Config'));
-  }
+  const loadConfigFile = () =>
+    runScript(createScriptElement(attributes.config, 'Config'));
   //---------------------------------------------------------------------------
   //  * Loads every module necessary for the cangam to work, including the
   //  extra modules defined in the Config file.
   //
   //    returns : List of loaded script nodes
   //---------------------------------------------------------------------------
-  function loadModules() {
-    sources = modules.concat(cangam.Config.extraModules);
-    return sources
+  const loadModules = () =>
+    modules.concat(cangam.Config.extraModules)
       .map(source => createScriptElement(source))
       .map(script => runScript(script));
-  }
   //---------------------------------------------------------------------------
   //  * Creates a non appended script element and initializes its attributes,
   //  then returns it.
@@ -85,7 +79,7 @@
   //
   //	returns : The script element node.
   //---------------------------------------------------------------------------
-  function createScriptElement(source, namespace = source) {
+  const createScriptElement = (source, namespace = source) => {
     let script    = document.createElement('script');
     script.src    = source + '.js';
     script.async  = false;
@@ -100,11 +94,8 @@
   //
   //    returns : The script element node
   //---------------------------------------------------------------------------
-  function runScript(script) {
-    document.head.appendChild(script);
-    document.head.removeChild(script);
-    return script;
-  }
+  const runScript = (script, node = document.head) =>
+    node.appendChild(script) && node.removeChild(script)
   //---------------------------------------------------------------------------
   //  * Extracts the attributes nodeList from the script tag and converts it to
   //  a plain object notation which can be passed as additional arguments to
@@ -112,19 +103,14 @@
   //
   //    returns : object mapping attribute name => attribute value
   //---------------------------------------------------------------------------
-  function extractAttributes(node = document.currentScript) {
-    let list, attrs, pair;
-    list  = {};
-    attrs = Array.prototype.slice.call(node.attributes);
-    while(pair = attrs.pop()) list[pair.nodeName] = pair.nodeValue;
-    return list;
-  }
+  const extractAttributes = () =>
+   [...document.currentScript.attributes]
+      .reduce((list, pair) => (list[pair.nodeName] = pair.nodeValue) && list)
   //---------------------------------------------------------------------------
   //  * Performs cleanup operations, such as deleting the original script node.
   //---------------------------------------------------------------------------
-  function cleanup() {
+  const cleanup = () =>
     document.currentScript.parentNode.removeChild(document.currentScript);
-  }
   //---------------------------------------------------------------------------
   //  * Automatically starts the script, such as invoking the initialize method
   //---------------------------------------------------------------------------
