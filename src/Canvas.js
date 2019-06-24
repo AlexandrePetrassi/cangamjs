@@ -17,7 +17,7 @@
   //---------------------------------------------------------------------------
   //  * Initializes the private fields
   //---------------------------------------------------------------------------
-  function initialize() {
+  const initialize = () => {
     targetID   = cangam.attributes.target_id;
     parentNode = document.getElementById(targetID);
     canvas     = createCanvas(Config.canvas.style);
@@ -26,7 +26,7 @@
   //---------------------------------------------------------------------------
   //  * Creates a stylized Canvas element using the Config file data.
   //---------------------------------------------------------------------------
-  function createCanvas(style = {}) {
+  const createCanvas = (style = {}) => {
     let canvasElement = document.createElement('canvas');
     let styles        = Object.entries(style);
     let styleMapping  = (key, value) => canvasElement.style[key] = value;
