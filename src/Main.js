@@ -16,7 +16,7 @@
   //---------------------------------------------------------------------------
   //  * Initializes the private fields
   //---------------------------------------------------------------------------
-  function initialize() {
+  const initialize = () => {
     baseFrameRate = 1/60;
     onUpdate      = new Events.Event;
     onDraw        = new Events.Event;
@@ -25,7 +25,7 @@
   //---------------------------------------------------------------------------
   //  * Executes the main events at every frame
   //---------------------------------------------------------------------------
-  function mainLoop() {
+  const mainLoop = () => {
     onUpdate.invoke();
     onDraw  .invoke();
   }
