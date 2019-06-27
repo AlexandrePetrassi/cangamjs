@@ -4,10 +4,6 @@
 //  This script acts as a loader, Initializing a CanGam instance and thereafter
 //  loading all its dependencies while forwarding info into them.
 //=============================================================================
-//  IIFE PARAMETERS
-//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-//    modules  : Script paths which will be loaded as CanGam Modules.
-//=============================================================================
 //  SCRIPT TAG'S ADDITIONAL ATTRIBUTES
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 //  This script will also forward every attribute declared alongside the
