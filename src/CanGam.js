@@ -26,14 +26,13 @@
 //    <script src='CanGam.js' target_id='CanGam' config='Config'></script>
 //
 //=============================================================================
-!function CanGam (
+!function(){
   // List of script paths which are going to be loaded by this CanGam instance
-  modules = [
+  const modules = [
     'Events',
     'Canvas',
     'Main',
-  ],
-){
+  ]
   //---------------------------------------------------------------------------
   // private fields declaration
   //---------------------------------------------------------------------------
