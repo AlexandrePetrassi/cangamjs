@@ -3,7 +3,7 @@
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 //  This is the basic configuration file for CanGam
 //=============================================================================
-!function Config(
+!function(
   self = document.currentScript.self
 ){
   self.extraModules = [];

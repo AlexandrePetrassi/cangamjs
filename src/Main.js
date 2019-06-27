@@ -3,7 +3,7 @@
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 //  Initializes and Manages the Main Loop of this CanGam instance.
 //=============================================================================
-!function Main(
+!function(
   self   = document.currentScript.self,
   Events = self.cangam.Events
 ){

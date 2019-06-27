@@ -3,7 +3,7 @@
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 //  Initializes and Manages the Canvas inside the CanGam instance.
 //=============================================================================
-!function Canvas(
+!function(
   self   = document.currentScript.self,
   cangam = self.cangam,
   Config = cangam.Config
