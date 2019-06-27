@@ -127,7 +127,7 @@
     //    eventData : Optional event data to be passed as argument.
     //-------------------------------------------------------------------------
     invoke(eventData = {}) {
-      this.#layers.forEach(layer => layer ? layer.invoke(eventData) : layer)
+      this.#layers.forEach(layer => !layer || layer.invoke(eventData))
     }
   }
 }()
