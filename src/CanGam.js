@@ -26,7 +26,7 @@
 //    <script src='CanGam.js' target_id='CanGam' config='Config'></script>
 //
 //=============================================================================
-!function(){
+{
   // List of script paths which are going to be loaded by this CanGam instance
   const modules = [
     'Events',
@@ -117,7 +117,7 @@
     initialize();
     cleanup();
   }()
-}()
+}
 //=============================================================================
 // END OF SCRIPT
 //=============================================================================
