@@ -19,7 +19,7 @@
   const initialize = () => {
     baseFrameRate = 1/60;
     onUpdate      = new Events.Event;
-    onDraw        = new Events.Event;
+    onDraw        = new Events.LayeredEvent;
     window.setInterval(mainLoop, baseFrameRate);
   }
   //---------------------------------------------------------------------------
