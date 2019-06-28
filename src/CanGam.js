@@ -25,7 +25,8 @@
 {
   // List of script paths which are going to be loaded by this CanGam instance
   const modules = [
-    'Events',
+    'events/Event',
+    'events/LayeredEvent',
     'Canvas',
     'Main',
   ]
