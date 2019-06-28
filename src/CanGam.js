@@ -74,14 +74,49 @@
   //
   //	returns : The script element node.
   //---------------------------------------------------------------------------
-  const createScriptElement = (source, namespace = source) => {
+  const createScriptElement = (source, namespace = undefined) => {
     let script    = document.createElement('script');
     script.src    = source + '.js';
     script.async  = false;
     script.cangam = cangam;
-    script.self   = (cangam[namespace] = {cangam : cangam});
+    script.self   = createNamespaceStructure(namespace || source);
     return script;
   }
+  //---------------------------------------------------------------------------
+  //  * Creates a namespace structure by following the folder structure of a
+  //  file's hierarchy.
+  //
+  //    path : The file path separated by "/". The last folder is ignored due
+  //           to the fact that it must be a filename instead a folder.
+  //
+  //    returns : The namespace, which is the last node in the generated tree.
+  //---------------------------------------------------------------------------
+  const createNamespaceStructure = (path) =>
+    removeLast(path.split("/")).reduce(createNamespaceNode, cangam);
+  //---------------------------------------------------------------------------
+  //  * Removes the last element from an array with size greater than one.
+  //  If the array has only one element or is empty, then this method does
+  //  nothing and simply returns the unaltered array.
+  //
+  //    array : The array which will have its last element removed.
+  //
+  //    returns : The array without its last element, or the array itself if
+  //              it has only one or no elements.
+  //---------------------------------------------------------------------------
+  const removeLast = (array) =>
+    array.length > 1 ? array.slice(0, -1) : array;
+  //---------------------------------------------------------------------------
+  //  * Creates a "namespace" node, that is, an object used to hold references
+  //  to other objects. Every node contains a reference to the root namespace
+  //  node, the cangam.
+  //
+  //    parentNode:  A base namespace node object which will hold a sub node
+  //    childName  : A string representing the child node's name.
+  //
+  //    returns : The child node object of name 'childName' in the 'parentNode'
+  //---------------------------------------------------------------------------
+  const createNamespaceNode = (parentNode, childName) =>
+    parentNode[childName] || (parentNode[childName] = {cangam : cangam});
   //---------------------------------------------------------------------------
   //  * Runs a script element by appending and instantly de-appending it to the
   //  page's body.
@@ -90,7 +125,7 @@
   //    returns : The script element node
   //---------------------------------------------------------------------------
   const runScript = (script, node = document.head) =>
-    node.appendChild(script) && node.removeChild(script)
+    node.appendChild(script) && node.removeChild(script);
   //---------------------------------------------------------------------------
   //  * Extracts the attributes nodeList from the script tag and converts it to
   //  a plain object notation which can be passed as additional arguments to
@@ -100,7 +135,7 @@
   //---------------------------------------------------------------------------
   const extractAttributes = () =>
    [...document.currentScript.attributes]
-      .reduce((list, pair) => (list[pair.nodeName] = pair.nodeValue) && list)
+      .reduce((list, pair) => (list[pair.nodeName] = pair.nodeValue) && list);
   //---------------------------------------------------------------------------
   //  * Performs cleanup operations, such as deleting the original script node.
   //---------------------------------------------------------------------------
