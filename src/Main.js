@@ -5,7 +5,7 @@
 //=============================================================================
 !function(
   self   = document.currentScript.self,
-  Events = self.cangam.Events
+  events = self.cangam.events
 ){
   //---------------------------------------------------------------------------
   // private fields declaration
@@ -18,8 +18,8 @@
   //---------------------------------------------------------------------------
   const initialize = () => {
     baseFrameRate = 1/60;
-    onUpdate      = new Events.Event;
-    onDraw        = new Events.LayeredEvent;
+    onUpdate      = new events.Event;
+    onDraw        = new events.LayeredEvent;
     window.setInterval(mainLoop, baseFrameRate);
   }
   //---------------------------------------------------------------------------
