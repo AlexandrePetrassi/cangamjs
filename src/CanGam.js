@@ -16,7 +16,7 @@
 //
 //  The following attributes are mandatory:
 //    target_id : The ID of the div where the CanGam will be inserted.
-//    config    : The configuration script's path. (without extension)
+//    config    : The configuration script's path. (without .js sextension)
 //		
 //  Example
 //    <script src='CanGam.js' target_id='CanGam' config='Config'></script>
