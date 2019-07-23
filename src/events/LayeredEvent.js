@@ -12,18 +12,18 @@
     //-------------------------------------------------------------------------
     // private fields declaration
     //-------------------------------------------------------------------------
-    #layers;                   // List of events. Each Event is called a layer.
+    layers;                   // List of events. Each Event is called a layer.
     //-------------------------------------------------------------------------
     //  * Object Initialization
     //-------------------------------------------------------------------------
     constructor() {
-      this.#layers = [];
+      this.layers = [];
     }
     //-------------------------------------------------------------------------
     //  * Returns the event layer of index 'layer'
     //-------------------------------------------------------------------------
-    #layer = (layer) =>
-      this.#layers[layer] || (this.#layers[layer] = new self.Event());
+    layer = (layer) =>
+      this.layers[layer] || (this.layers[layer] = new self.Event());
     //-------------------------------------------------------------------------
     //  * Adds a callback to a layer's end.
     //
@@ -31,7 +31,7 @@
     //    layer    : The layer's index.
     //-------------------------------------------------------------------------
     addEventListener(callback, layer = 0) {
-      this.#layer(layer).addEventListener(callback);
+      this.layer(layer).addEventListener(callback);
     }
     //-------------------------------------------------------------------------
     //  * Removes a callback from a layer
@@ -40,7 +40,7 @@
     //    layer    : The layer's index.
     //-------------------------------------------------------------------------
     removeEventListener(callback, layer = 0) {
-      this.#layer(layer).removeEventListener(callback);
+      this.layer(layer).removeEventListener(callback);
     }
     //-------------------------------------------------------------------------
     //  * Alias to addEventListener
@@ -67,7 +67,7 @@
     //    eventData : Optional event data to be passed as argument.
     //-------------------------------------------------------------------------
     invoke(eventData = {}) {
-      this.#layers.forEach(layer => !layer || layer.invoke(eventData))
+      this.layers.forEach(layer => !layer || layer.invoke(eventData))
     }
   }
 }

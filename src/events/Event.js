@@ -12,12 +12,12 @@
     //-------------------------------------------------------------------------
     // private fields declaration
     //-------------------------------------------------------------------------
-    #callbacks;                // List of callback functions listening to event
+    callbacks;               // List of callback functions listening to event
     //-------------------------------------------------------------------------
     //  * Object Initialization
     //-------------------------------------------------------------------------
     constructor() {
-      this.#callbacks = [];
+      this.callbacks = [];
     }
     //-------------------------------------------------------------------------
     //  * Adds a callback to the invocation list of this event.
@@ -25,7 +25,7 @@
     //    callback : The callback function which will be added to the list.
     //-------------------------------------------------------------------------
     addEventListener(callback) {
-      this.#callbacks.push(callback);
+      this.callbacks.push(callback);
     }
     //-------------------------------------------------------------------------
     //  * Removes a callback from the invocation list of this event.
@@ -33,7 +33,7 @@
     //    callback : The callback function which will be removed from the list.
     //-------------------------------------------------------------------------
     removeEventListener(callback) {
-      this.#callbacks.pop(callback);
+      this.callbacks.pop(callback);
     }
     //-------------------------------------------------------------------------
     //  * Alias to addEventListener
@@ -57,7 +57,7 @@
     //    eventData : Optional event data to be passed as argument.
     //-------------------------------------------------------------------------
     invoke(eventData = {}) {
-      this.#callbacks.forEach(callback => callback(eventData));
+      this.callbacks.forEach(callback => callback(eventData));
     }
   }
 }
