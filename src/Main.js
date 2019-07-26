@@ -13,9 +13,9 @@
     //-------------------------------------------------------------------------
     // private fields declaration
     //-------------------------------------------------------------------------
-    baseFrameRate;         // Main loop refresh rate
-    onUpdate;              // Update event called every frame
-    onDraw;                // Draw event called every frame
+    baseFrameRate;           // Main loop refresh rate
+    onUpdate;                // Update event called every frame
+    onDraw;                  // Draw event called every frame
     //-------------------------------------------------------------------------
     //  * Initializes the private fields
     //-------------------------------------------------------------------------
