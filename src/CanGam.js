@@ -28,6 +28,7 @@
     'events/Event',
     'events/LayeredEvent',
     'Canvas',
+    'graphics/Square',
     'Main',
   ]
   //---------------------------------------------------------------------------
