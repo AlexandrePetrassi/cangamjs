@@ -23,12 +23,12 @@
       this.baseFrameRate = 1/60;
       this.onUpdate      = new events.Event;
       this.onDraw        = new events.LayeredEvent;
-      window.setInterval(() => this.mainLoop(), this.baseFrameRate);
+      window.setInterval(() => this.loop(), this.baseFrameRate);
     }
     //-------------------------------------------------------------------------
     //  * Executes the main events at every frame
     //-------------------------------------------------------------------------
-    mainLoop() {
+    loop() {
       this.onUpdate.invoke();
       this.onDraw  .invoke();
     }
