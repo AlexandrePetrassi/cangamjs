@@ -1,0 +1,57 @@
+kRogue
+  Support for Stealing from events.
+    It must use the shop API. (Using comment calls to intercept shopcalls)
+    Limited shop inventory.
+	Stealing is activated while sneaking.
+  Support for Lockpicking.
+  Cache isThief result.
+  Support for sneaking.
+
+Expertise
+  Expertise Checks
+    Change the method names to a shorter version
+  Expertise for enemies
+    Create a lunatic notetag for defining the initial expertise
+    party expertise bonuses for troops (Scoping party bonuses to troops)
+	Create a troop specific lunatic notetag for overriding initial expertise for enemies
+  Split In Modules
+    Expertise Core
+	  Expertise Bonus
+	  Expertise Menu
+	    Expertise Inspector (new entry)
+	    Item Bonus Inspector (in item entry)
+	    Skill Bonus Inspector (in skill entry)
+	    Status Effects Bonus Inspector (new entry)
+		Stat Bonus Inspector (in Status entry)
+	    Add toogle for each inspector
+		Enhanced Status entry with views for each Menu (Expertise, Item, Skill and Status inspection)
+  Support for arbitrary views (Skills, Classes, Attributes).
+    Add expertise points exclusive for each view.
+	Add a connection between params and skills for stat allocation
+
+	CC.member_expertise_normal_check?(member, skill, cd)
+	CC.member_expertise_soft_check?(member, skill, cd)
+	CC.member_expertise_rated_check(member, skill, cd)
+	CC.actor_expertise_normal_check?(actor, skill, cd)
+	CC.actor_expertise_soft_check?(actor, skill, cd)
+	CC.actor_expertise_rated_check(actor, skill, cd)
+
+	Xprts.check?(member, skill, CD)
+	Xprts.soft?(member, skill, CD)
+	Xprts.rate(member, skill, CD)
+	Xprts.db_check?(actor, skill, CD)
+	Xprts.db_soft?(actor, skill, CD)
+	Xprts.db_rate(actor, skill, CD)
+
+	a.xprts_check?(skill, cd)
+	a.xprts_soft?(skill, cd)
+	a.xprts_rate(skill, cd)
+
+ScopeChange
+  FF-like all/single change by going full left
+
+  Acyt   Woot   Yrom  Swamp
+  Pyra   Rokk   Liyt  Mountain
+  Bout   Rayn   Tarc  Ocean
+  Cout   Wimt   Ætar  Sky
+  Desert Forest City
