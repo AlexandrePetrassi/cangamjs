@@ -1,4 +1,4 @@
-kRogue
+Rogue
   Support for Stealing from events.
     It must use the shop API. (Using comment calls to intercept shopcalls)
     Limited shop inventory.
@@ -29,23 +29,13 @@ Expertise
     Add expertise points exclusive for each view.
 	Add a connection between params and skills for stat allocation
 
-	CC.member_expertise_normal_check?(member, skill, cd)
-	CC.member_expertise_soft_check?(member, skill, cd)
-	CC.member_expertise_rated_check(member, skill, cd)
-	CC.actor_expertise_normal_check?(actor, skill, cd)
-	CC.actor_expertise_soft_check?(actor, skill, cd)
-	CC.actor_expertise_rated_check(actor, skill, cd)
-
-	Xprts.check?(member, skill, CD)
-	Xprts.soft?(member, skill, CD)
-	Xprts.rate(member, skill, CD)
-	Xprts.db_check?(actor, skill, CD)
-	Xprts.db_soft?(actor, skill, CD)
-	Xprts.db_rate(actor, skill, CD)
-
+    a.xprts(skill)
 	a.xprts_check?(skill, cd)
 	a.xprts_soft?(skill, cd)
 	a.xprts_rate(skill, cd)
+
+	CC.member(id)
+	CC.actor(id)
 
 ScopeChange
   FF-like all/single change by going full left
