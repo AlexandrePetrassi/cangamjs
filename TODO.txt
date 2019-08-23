@@ -39,8 +39,8 @@ Expertise
     CC.enemy(id)
     CC.troop(id)
 
-    a.xprts(skill)
-	a.xprts_check?(skill, cd)
+    a.xprts(skill) -> Makes a skill nullcheck using CC.skill(id)
+	a.xprts_check?(skill, cd) -> gets the skill by calling a.xprts(skill)
 	a.xprts_soft?(skill, cd)
 	a.xprts_rate(skill, cd)
 
