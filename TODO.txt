@@ -18,10 +18,10 @@ Expertise
     Expertise Core
 	  Expertise Bonus
 	  Expertise Menu
-	    Expertise Inspector (new entry)
+	    Expertise Inspector (in expertise entry)
 	    Item Bonus Inspector (in item entry)
 	    Skill Bonus Inspector (in skill entry)
-	    Status Effects Bonus Inspector (new entry)
+	    Status Effects Bonus Inspector (in Status entry)
 		Stat Bonus Inspector (in Status entry)
 	    Add toogle for each inspector
 		Enhanced Status entry with views for each Menu (Expertise, Item, Skill and Status inspection)
@@ -29,13 +29,20 @@ Expertise
     Add expertise points exclusive for each view.
 	Add a connection between params and skills for stat allocation
 
+    CC.actor(id)
+    CC.member(id)
+    CC.class(id)
+    CC.skill(id)
+    CC.item(id)
+    CC.weapon(id)
+    CC.armor(id)
+    CC.enemy(id)
+    CC.troop(id)
+
     a.xprts(skill)
 	a.xprts_check?(skill, cd)
 	a.xprts_soft?(skill, cd)
 	a.xprts_rate(skill, cd)
-
-	CC.member(id)
-	CC.actor(id)
 
 ScopeChange
   FF-like all/single change by going full left

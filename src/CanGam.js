@@ -27,9 +27,10 @@
   const modules = [
     'events/Event',
     'events/LayeredEvent',
-    'Canvas',
+    'events/Main',
+    'graphics/Drawable',
+    'graphics/Canvas',
     'graphics/Square',
-    'Main',
   ]
   //---------------------------------------------------------------------------
   // private fields declaration
@@ -94,7 +95,7 @@
   //    returns : The namespace, which is the last node in the generated tree.
   //---------------------------------------------------------------------------
   const createNamespaceStructure = (path) =>
-    removeLast(path.split("/")).reduce(createNamespaceNode, cangam);
+    path.split("/").reduce(createNamespaceNode, cangam);
   //---------------------------------------------------------------------------
   //  * Removes the last element from an array with size greater than one.
   //  If the array has only one element or is empty, then this method does
