@@ -2,13 +2,15 @@
   //---------------------------------------------------------------------------
   // imports
   //---------------------------------------------------------------------------
-  const self = document.currentScript.self;
+  const cangam   = document.currentScript.self.cangam;
+  const graphics = cangam.graphics;
+  const Canvas   = graphics.Canvas;
   //===========================================================================
   //  ► Square
   //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   //  Class which manages simple hollow squares to be drawn in the canvas
   //===========================================================================
-  self.Square = class {
+  document.currentScript.self = class extends graphics.Drawable {
     //-------------------------------------------------------------------------
     // private fields declaration
     //-------------------------------------------------------------------------
@@ -19,7 +21,8 @@
     //-------------------------------------------------------------------------
     //  * Initializes the private fields
     //-------------------------------------------------------------------------
-    constructor(left, top, right, bottom) {
+    constructor(left, top, right, bottom, layer = 0) {
+      super(layer);
       this.left   = left;
       this.top    = top;
       this.right  = right;
@@ -41,6 +44,10 @@
     //  * Sets the Height
     //-------------------------------------------------------------------------
     set height (height) { this.top = this.bottom - height }
+
+    draw () {
+      Canvas.context.fillRect(this.left, this.top, this.width, this.height);
+    }
   }
 }
 //=============================================================================
