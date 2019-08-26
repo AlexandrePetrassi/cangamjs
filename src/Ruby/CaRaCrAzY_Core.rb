@@ -193,7 +193,7 @@ module CaRaCrAzY
       #     id: Actor's Database ID
       #-------------------------------------------------------------------------
       def actor(id)
-        log "Cannot find actor of index #{id}" unless $game_actors[id]
+        $game_actors[id] || log "Cannot find actor of index #{id}"
       end
       #-------------------------------------------------------------------------
       # * Returns the actor from the party
@@ -201,7 +201,7 @@ module CaRaCrAzY
       #     id: Actor's position between 0 and 3 in current battle party
       #-------------------------------------------------------------------------
       def member(id)
-        log "Cannot find member of index #{id}" unless $game_party.members[id]
+        $game_party.members[id] || log "Cannot find member of index #{id}"
       end
       #-------------------------------------------------------------------------
       # * Returns the class from the database
@@ -209,7 +209,7 @@ module CaRaCrAzY
       #     id: Class's Database ID
       #-------------------------------------------------------------------------
       def class(id)
-        log "Cannot find class of index #{id}" unless $data_classes[id]
+        $data_classes[id] || log "Cannot find class of index #{id}"
       end
       #-------------------------------------------------------------------------
       # * Returns the skill from the database
@@ -217,7 +217,7 @@ module CaRaCrAzY
       #     id: Skill's Database ID
       #-------------------------------------------------------------------------
       def skill(id)
-        log "Cannot find skill of index #{id}" unless $data_skills[id]
+        $data_skills[id] || log "Cannot find skill of index #{id}"
       end
       #-------------------------------------------------------------------------
       # * Returns the item from the database
@@ -225,7 +225,7 @@ module CaRaCrAzY
       #     id: Item's Database ID
       #-------------------------------------------------------------------------
       def item(id)
-        log "Cannot find item of index #{id}" unless $data_items[id]
+        $data_items[id] || log "Cannot find item of index #{id}"
       end
       #-------------------------------------------------------------------------
       # * Returns the weapon from the database
@@ -233,7 +233,7 @@ module CaRaCrAzY
       #     id: Weapon's Database ID
       #-------------------------------------------------------------------------
       def weapon(id)
-        log "Cannot find weapon of index #{id}" unless $data_weapon[id]
+        $data_weapon[id] || log "Cannot find weapon of index #{id}"
       end
       #-------------------------------------------------------------------------
       # * Returns the armor from the database
@@ -241,7 +241,7 @@ module CaRaCrAzY
       #     id: Armor's Database ID
       #-------------------------------------------------------------------------
       def armor(id)
-        log "Cannot find armor of index #{id}" unless $data_armor[id]
+        $data_armor[id] || log "Cannot find armor of index #{id}"
       end
       #-------------------------------------------------------------------------
       # * Returns the enemy from the database
@@ -249,7 +249,7 @@ module CaRaCrAzY
       #     id: Enemy's Database ID
       #-------------------------------------------------------------------------
       def enemy(id)
-        log "Cannot find enemy of index #{id}" unless $data_enemies[id]
+        $data_enemies[id] || log "Cannot find enemy of index #{id}"
       end
       #-------------------------------------------------------------------------
       # * Returns the troop from the database
@@ -257,7 +257,7 @@ module CaRaCrAzY
       #     id: Troop's Database ID
       #-------------------------------------------------------------------------
       def troop(id)
-        log "Cannot find troop of index #{id}" unless $data_troops[id]
+        $data_troops[id] || log "Cannot find troop of index #{id}"
       end
     end
   end
