@@ -145,15 +145,14 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     # * Get expertise data for a given Expertise
     #---------------------------------------------------------------------------
-    def expertise(skill)
-      skill = $data_skills[skill] if skill.is_a? Numeric
-      expertises[skill.id] ||= Expertise.new(self, skill)
+    def expertise(skill_id)
+      expertises[skill_id] ||= Expertise.new(self.id, skill_id)
     end
     #---------------------------------------------------------------------------
     # * Allocated points in a given Expertise
     #---------------------------------------------------------------------------
-    def base_expertise(skill)
-      expertise(skill).allocations
+    def base_expertise(skill_id)
+      expertise(skill_id).allocations
     end
     #---------------------------------------------------------------------------
     # * Awards the actor expertise_points based on its growth formula
@@ -283,9 +282,9 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     # * Object Initialization
     #---------------------------------------------------------------------------
-    def initialize(actor, skill)
-      @actor       = actor
-      @skill       = skill
+    def initialize(actor_id, skill_id)
+      @actor       = Get.actor(actor_id)
+      @skill       = Get.skill(skill_id)
       @allocations = 0
     end
     #---------------------------------------------------------------------------

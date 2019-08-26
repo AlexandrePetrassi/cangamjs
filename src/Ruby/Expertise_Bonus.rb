@@ -540,7 +540,7 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     def initialize(skill_id, value)
       @descriptor = skill_id.to_s
-      super($data_skills[skill_id], value)
+      super(Get.skill(skill_id), value)
     end
     #---------------------------------------------------------------------------
     # * The Bonus_Mode of this bonus is always SYNERGY
