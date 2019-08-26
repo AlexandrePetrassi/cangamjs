@@ -154,13 +154,13 @@ module CaRaCrAzY
       #-------------------------------------------------------------------------
       # * Regex for retrieving notetags in the following formats:
       #   <tag>
-      #   <tag> lunatic </tag>
+      #   <tag> code </tag>
       #   <tag: a>
-      #   <tag: a> lunatic </tag>
+      #   <tag: a> code </tag>
       #   <tag: a, b>
-      #   <tag: a, b> lunatic </tag>
+      #   <tag: a, b> code </tag>
       #   <tag: a, b, c>
-      #   <tag: a, b, c> lunatic </tag>
+      #   <tag: a, b, c> code </tag>
       #-------------------------------------------------------------------------
       def regex(tag)
         %r{
@@ -182,7 +182,7 @@ module CaRaCrAzY
   #=============================================================================
   # ** Get
   #-----------------------------------------------------------------------------
-  #  Module for safely accessing database references
+  #  Module for accessing database references while logging errors
   #=============================================================================
 
   class ::Get
