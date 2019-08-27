@@ -8,25 +8,25 @@ Rogue
   Support for sneaking.
 
 Expertise
-  Expertise Checks
-    Change the method names to a shorter version
   Expertise for enemies
     Create a lunatic notetag for defining the initial expertise
     party expertise bonuses for troops (Scoping party bonuses to troops)
 	Create a troop specific lunatic notetag for overriding initial expertise for enemies
-  Split In Modules
-    Expertise Core
-	  Expertise Bonus
-	  Expertise Menu
-	    Expertise Inspector (in expertise entry)
-	    Item Bonus Inspector (in item entry)
-	    Skill Bonus Inspector (in skill entry)
-	    Status Effects Bonus Inspector (in Status entry)
-		Stat Bonus Inspector (in Status entry)
-	    Add toogle for each inspector
-		Enhanced Status entry with views for each Menu (Expertise, Item, Skill and Status inspection)
-  Support for arbitrary views (Skills, Classes, Attributes).
-    Add expertise points exclusive for each view.
+  ( ) Split In Modules
+    (x) Expertise Core
+	  (x) Expertise Bonus
+	  (x) Expertise Menu
+	  ( ) Expertise Inspector (in expertise entry)
+	  ( ) Item Bonus Inspector (in item entry)
+	  ( ) Skill Bonus Inspector (in skill entry)
+	  ( ) Status Effects Bonus Inspector (in Status entry)
+		( ) Stat Bonus Inspector (in Status entry)
+	  ( ) Add toogle for each inspector
+		( ) Enhanced Status entry with views for each Menu (Expertise, Item, Skill and Status inspection)
+  ( ) Support for arbitrary views (Skills, Classes, Attributes).
+    ( ) Add expertise points exclusive for each view.
+    ( ) Add classes as arbitrary views
+    ( ) Add Growth formula to classes
 	Add a connection between params and skills for stat allocation
 
     CC.actor(id)
