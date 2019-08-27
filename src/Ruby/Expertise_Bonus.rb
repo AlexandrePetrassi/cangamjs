@@ -45,6 +45,15 @@ module CaRaCrAzY
   NTAG_IADD     = :iadd    # IAdd Notetag symbol
   NTAG_IMULT    = :imult   # IMult Notetag symbol
   NTAG_SYNERGY  = :synergy # Synergy Notetag symbol
+
+  #=============================================================================
+  # REST OF THE SCRIPT
+  #-----------------------------------------------------------------------------
+  # The script itself starts here.
+  # You are welcome to read it, but do not modify the below code unless you 
+  # know exactly what you are doing.
+  # No support will be provided to solve problems caused by edited code.
+  #=============================================================================
   
   #=============================================================================
   # ** Bonus_Mode
@@ -268,13 +277,6 @@ module CaRaCrAzY
       result = forget_skill_caracrazy_sa5f4(*args)
       $game_party.need_refresh = true
       result
-    end
-    #---------------------------------------------------------------------------
-    #   Marks expertises' values cache as dirty
-    #---------------------------------------------------------------------------
-    alias allocate_expertise_caracrazy_m52sd4 allocate_expertise
-    def allocate_expertise(*args)
-      allocate_expertise_caracrazy_m52sd4(*args)
     end
   end
 
