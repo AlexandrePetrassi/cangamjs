@@ -72,6 +72,9 @@ module CaRaCrAzY
   # know exactly what you are doing.
   # No support will be provided to solve problems caused by edited code.
   #=============================================================================
+  
+  # Default growth lambda already evaluated from GROWTH_FORMULA's string value
+  GROWTH_LAMBDA = eval("lambda {|a| #{GROWTH_FORMULA} }")
 
   #=============================================================================
   # ** Game_Actor
@@ -142,15 +145,6 @@ module CaRaCrAzY
       expertise(skill_id).allocate(-value)
       self.expertise_points += value
     end
-  end
-
-  #=============================================================================
-  # ** Game_Actor
-  #-----------------------------------------------------------------------------
-  #  Expertise Growth
-  #=============================================================================
-  
-  class ::Game_Actor
     #---------------------------------------------------------------------------
     # * Awards the actor expertise_points based on its growth formula
     #---------------------------------------------------------------------------  
@@ -161,6 +155,23 @@ module CaRaCrAzY
     # * Formula for calculating how many points the actor gains on Level Up
     #---------------------------------------------------------------------------
     def expertise_growth
+      inventory.reverse.find(GROWTH_LAMBDA, &:expertise_growth)
+    end
+  end
+
+  #=============================================================================
+  # ** BaseItem
+  #-----------------------------------------------------------------------------
+  #  Expertise Growth
+  #=============================================================================
+  
+  class RPG::BaseItem
+    #---------------------------------------------------------------------------
+    # * Formula for calculating how many points the actor gains on Level Up
+    #---------------------------------------------------------------------------
+    def expertise_growth
+      return @expertise_growth if @expertise_growth_memo
+      @expertise_growth_memo = true
       @expertise_growth ||= retrieve_growth_data
     end
     #---------------------------------------------------------------------------
@@ -168,14 +179,14 @@ module CaRaCrAzY
     #   If the notetag is not found, returns the default formula instead
     #---------------------------------------------------------------------------
     def retrieve_growth_data
-      eval("lambda {|a| #{match = growth_tag ? match[:lu] : GROWTH_FORMULA} }")
+      match = growth_tag ? eval("lambda {|a| #{match[:lu]} }") : nil
     end
     #---------------------------------------------------------------------------
     # * Match_data from one match of:
     #     <expertise-growth> formula </expertise-growth>
     #---------------------------------------------------------------------------
     def growth_tag
-      Notetag.scan_tags(actor.note, "expertise-growth".to_sym).first
+      Notetag.scan_tags(note, "expertise-growth".to_sym).first
     end
   end
   

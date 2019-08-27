@@ -229,117 +229,6 @@ module CaRaCrAzY
   # Const: Default scope used for bonuses notetags lacking the scope parameter
   #-----------------------------------------------------------------------------
   DEFAULT_SCOPE = :actor
-  
-  #=============================================================================
-  # ** Game_Player
-  #=============================================================================
-
-  class ::Game_Player
-    #---------------------------------------------------------------------------
-    # * Marks the party extended inventory's cache as dirty
-    #---------------------------------------------------------------------------
-    alias refresh_caracrazy_79aga refresh
-    def refresh(*args)
-      result = refresh_caracrazy_79aga(*args)
-      $game_party.need_refresh = true
-      result
-    end
-  end
-
-  #=============================================================================
-  # ** Game_Actor
-  #=============================================================================
-  
-  class ::Game_Actor
-    #---------------------------------------------------------------------------
-    #   Marks the party extended inventory's cache as dirty
-    #---------------------------------------------------------------------------
-    alias refresh_caracrazy_8a7ha refresh
-    def refresh(*args)
-      result = refresh_caracrazy_8a7ha(*args)
-      $game_party.need_refresh = true
-      result
-    end
-    #---------------------------------------------------------------------------
-    #   Marks the party extended inventory's cache as dirty
-    #---------------------------------------------------------------------------
-    alias learn_skill_caracrazy_5asg1 learn_skill
-    def learn_skill(*args)
-      result = learn_skill_caracrazy_5asg1(*args)
-      $game_party.need_refresh = true
-      result
-    end
-    #---------------------------------------------------------------------------
-    #   Marks the party extended inventory's cache as dirty
-    #---------------------------------------------------------------------------
-    alias forget_skill_caracrazy_sa5f4 forget_skill
-    def forget_skill(*args)
-      result = forget_skill_caracrazy_sa5f4(*args)
-      $game_party.need_refresh = true
-      result
-    end
-  end
-
-  #=============================================================================
-  # ** Game_Party
-  #=============================================================================
-
-  class ::Game_Party
-    #---------------------------------------------------------------------------
-    #   Marks the party extended inventory's cache as dirty
-    #---------------------------------------------------------------------------
-    alias gain_item_caracrazy_4v51F gain_item
-    def gain_item(*args)
-      result = gain_item_caracrazy_4v51F(*args)
-      $game_party.need_refresh = true
-      result
-    end
-    #---------------------------------------------------------------------------
-    #   Marks the party extended inventory's cache as dirty
-    #---------------------------------------------------------------------------
-    alias add_actor_caracrazy_5v1a98 add_actor
-    def add_actor(*args)
-      result = add_actor_caracrazy_5v1a98(*args)
-      $game_party.need_refresh = true
-      result
-    end
-    #---------------------------------------------------------------------------
-    #   Marks the party extended inventory's cache as dirty
-    #---------------------------------------------------------------------------
-    alias remove_actor_caracrazy_aan15 remove_actor
-    def remove_actor(*args)
-      result = remove_actor_caracrazy_aan15(*args)
-      $game_party.need_refresh = true
-      result
-    end
-  end
-  
-  #=============================================================================
-  # ** Game_Party
-  #-----------------------------------------------------------------------------
-  #  Class containing additional data to be inserted into Game_Party
-  #=============================================================================
-  
-  class ::Game_Party
-    #---------------------------------------------------------------------------
-    # * Public instance attributes
-    #---------------------------------------------------------------------------
-    attr_accessor :need_refresh # Mark the cached items list as dirty
-    #---------------------------------------------------------------------------
-    # * Array containing every BaseItem currently added to the party, which
-    #   means: Inventory Items, Equiped Items, Skills, States, Classes and the
-    #   actors themselves.
-    #---------------------------------------------------------------------------
-    def all_base_items
-      return @all_party_base_items unless need_refresh
-      @need_refresh = false
-      @all_party_base_items = battle_members
-        .map { |actor| actor.inventory(true) }
-        .concat(all_items)
-        .flatten
-        .uniq
-    end
-  end
 
   #=============================================================================
   # ** Game_Actor
@@ -349,22 +238,10 @@ module CaRaCrAzY
   
   class ::Game_Actor
     #---------------------------------------------------------------------------
-    # * Public instance attributes
-    #---------------------------------------------------------------------------
-    attr_accessor :need_refresh     # When true, will re-calculate inventory
-    #---------------------------------------------------------------------------
     # * Get the total expertise value of a skill
     #---------------------------------------------------------------------------
     def xprts(skill_id)
       expertise(skill_id).total
-    end
-    #---------------------------------------------------------------------------
-    # * Game_Actor's particular memoized inventory
-    #---------------------------------------------------------------------------
-    def inventory(force_refresh = false)
-      return @inventory unless need_refresh || force_refresh
-      need_refresh = false
-      @inventory = all_base_items
     end
     #---------------------------------------------------------------------------
     # * Allocated points in a given Expertise
@@ -377,14 +254,6 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     def total_expertise(skill_id)
        expertise(skill_id).total
-    end
-    #---------------------------------------------------------------------------
-    # * List of all base_items this Game_Actor is carrying, including the 
-    #   actor itself.
-    #---------------------------------------------------------------------------
-    def all_base_items
-      return [] unless alive?
-      [actor, self.class] + weapons + armors + skills + states
     end
   end
   
