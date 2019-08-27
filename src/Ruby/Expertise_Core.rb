@@ -116,7 +116,7 @@ module CaRaCrAzY
       @expertise_points = [0, value].max
     end
     #---------------------------------------------------------------------------
-    # * False unless expertise_points are not zero else return expertise pts
+    # * False unless expertise_points are not zero, else return expertise pts
     #---------------------------------------------------------------------------
     def expertise_points?
       expertise_points > 0 ? expertise_points : false
@@ -140,7 +140,7 @@ module CaRaCrAzY
     def respec_expertise(skill_id)
       value = expertise(skill_id).allocations
       expertise(skill_id).allocate(-value)
-      self.expert_points += value
+      self.expertise_points += value
     end
   end
 
