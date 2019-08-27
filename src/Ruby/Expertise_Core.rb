@@ -62,7 +62,7 @@ module CaRaCrAzY
   #   parameters:
   #     a : the Actor receiving the Expertise Points from the formula's result.
   #-----------------------------------------------------------------------------
-  DEFAULT_GROWTH_FORMULA = "a.mat / 10"
+  GROWTH_FORMULA = "a.mat / 10"
   
   #=============================================================================
   # REST OF THE SCRIPT
@@ -95,21 +95,6 @@ module CaRaCrAzY
   #=============================================================================
   
   class ::Game_Actor
-    class << self
-      #-------------------------------------------------------------------------
-      # * Default Expertise growth formula defined at the start of the script.
-      #   This formula is used for actors lacking a <expertise_growth> Notetag.
-      #-------------------------------------------------------------------------
-      def default_growth
-        @default_growth = eval("lambda {|a| #{DEFAULT_GROWTH_FORMULA} }")
-      end
-      #-------------------------------------------------------------------------
-      # * Array for caching all custom growth formulas
-      #-------------------------------------------------------------------------
-      def growths
-        @growths ||= []
-      end
-    end
     #---------------------------------------------------------------------------
     # * Public instance attributes
     #---------------------------------------------------------------------------
@@ -123,12 +108,6 @@ module CaRaCrAzY
       initialize_caracrazy_o21a7j(*args)
       @expertises       = {}
       @expertise_points = 0
-    end
-    #---------------------------------------------------------------------------
-    # * Get the total expertise value of a skill
-    #---------------------------------------------------------------------------
-    def xprts(skill_id)
-      expertise(skill_id).allocations
     end
     #---------------------------------------------------------------------------
     # * Set expertise_points
@@ -149,18 +128,6 @@ module CaRaCrAzY
       expertises[skill_id] ||= Expertise.new(self, $data_skills[skill_id])
     end
     #---------------------------------------------------------------------------
-    # * Awards the actor expertise_points based on its growth formula
-    #---------------------------------------------------------------------------  
-    def award_expertise
-      self.expertise_points += expertise_growth.(self).floor
-    end
-    #---------------------------------------------------------------------------
-    # * Formula for calculating how many points the actor gains on Level Up
-    #---------------------------------------------------------------------------
-    def expertise_growth
-      Game_Actor.growths[actor.id] ||= retrieve_growth_data
-    end
-    #---------------------------------------------------------------------------
     # * Removes expertise points from the actor to increase skill expertise
     #---------------------------------------------------------------------------
     def allocate_expertise(skill_id, points = 1)
@@ -175,16 +142,33 @@ module CaRaCrAzY
       expertise(skill_id).allocate(-value)
       self.expert_points += value
     end
+  end
+
+  #=============================================================================
+  # ** Game_Actor
+  #-----------------------------------------------------------------------------
+  #  Expertise Growth
+  #=============================================================================
+  
+  class ::Game_Actor
+    #---------------------------------------------------------------------------
+    # * Awards the actor expertise_points based on its growth formula
+    #---------------------------------------------------------------------------  
+    def award_expertise
+      self.expertise_points += expertise_growth.(self).floor
+    end
+    #---------------------------------------------------------------------------
+    # * Formula for calculating how many points the actor gains on Level Up
+    #---------------------------------------------------------------------------
+    def expertise_growth
+      @expertise_growth ||= retrieve_growth_data
+    end
     #---------------------------------------------------------------------------
     # * Growth formula from a retrieved <expertise_growth> notetag.
     #   If the notetag is not found, returns the default formula instead
     #---------------------------------------------------------------------------
     def retrieve_growth_data
-      if match = growth_tag
-        eval("lambda {|a| #{match[:lu]} }") 
-      else
-        Game_Actor.default_growth
-      end
+      eval("lambda {|a| #{match = growth_tag ? match[:lu] : GROWTH_FORMULA} }")
     end
     #---------------------------------------------------------------------------
     # * Match_data from one match of:
@@ -202,6 +186,12 @@ module CaRaCrAzY
   #=============================================================================
   
   class ::Game_Actor
+    #---------------------------------------------------------------------------
+    # * Get the total expertise value of a skill
+    #---------------------------------------------------------------------------
+    def xprts(skill_id)
+      expertise(skill_id).allocations
+    end
     #---------------------------------------------------------------------------
     # * Makes a "dice" roll based on a difficulty rate for the actor's skill.
     #   Returns true if the value rolled is LESS THAN the skill's expertise,
