@@ -191,7 +191,7 @@ module CaRaCrAzY
     def self.total(expertise, base = 0)
       actor = expertise.actor
       SYNERGY.bonuses(expertise)
-        .map { |bonus| actor.expertise(bonus.item).allocations * bonus.value }
+        .map { |bonus| actor.expertise(bonus.item.id).allocations * bonus.value }
         .reduce(0,:+).floor
     end
   end
@@ -274,9 +274,7 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     alias allocate_expertise_caracrazy_m52sd4 allocate_expertise
     def allocate_expertise(*args)
-      result = allocate_expertise_caracrazy_m52sd4(*args)
-      Expertise.refresh
-      result
+      allocate_expertise_caracrazy_m52sd4(*args)
     end
   end
 
@@ -322,18 +320,9 @@ module CaRaCrAzY
   
   class ::Game_Party
     #---------------------------------------------------------------------------
-    # Returns true if cached items must be refreshed
+    # * Public instance attributes
     #---------------------------------------------------------------------------
-    def need_refresh
-      @need_refresh
-    end
-    #---------------------------------------------------------------------------
-    # Mark the chached items as dirt or clean
-    #---------------------------------------------------------------------------
-    def need_refresh=(value)
-      Expertise.refresh if value
-      @need_refresh = value
-    end
+    attr_accessor :need_refresh # Mark the cached items list as dirty
     #---------------------------------------------------------------------------
     # * Array containing every BaseItem currently added to the party, which
     #   means: Inventory Items, Equiped Items, Skills, States, Classes and the
@@ -364,7 +353,7 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     # * Get the total expertise value of a skill
     #---------------------------------------------------------------------------
-    def xpts(skill_id)
+    def xprts(skill_id)
       expertise(skill_id).total
     end
     #---------------------------------------------------------------------------
@@ -376,10 +365,16 @@ module CaRaCrAzY
       @inventory = all_base_items
     end
     #---------------------------------------------------------------------------
+    # * Allocated points in a given Expertise
+    #---------------------------------------------------------------------------
+    def base_expertise(skill_id)
+      expertise(skill_id).allocations
+    end
+    #---------------------------------------------------------------------------
     # * Total expertise of a skill by taking Bonuses into account
     #---------------------------------------------------------------------------
-    def total_expertise(skill)
-       expertise(skill).total
+    def total_expertise(skill_id)
+       expertise(skill_id).total
     end
     #---------------------------------------------------------------------------
     # * List of all base_items this Game_Actor is carrying, including the 
@@ -398,30 +393,13 @@ module CaRaCrAzY
   #=============================================================================
   
   class Expertise
-    class << self
-      #-------------------------------------------------------------------------
-      # Memoization flag used to mark if expertises shall recalculate values.
-      #-------------------------------------------------------------------------
-      def memoizer
-        @memoizer ||= 1
-      end
-      #-------------------------------------------------------------------------
-      # * forces expertises to recalculate, by changing the memoizer
-      #-------------------------------------------------------------------------
-      def refresh
-        @memoizer ||= 1
-        @memoizer += 1 
-      end
-    end
     #---------------------------------------------------------------------------
     # * Total expertise taking Synergies, bonuses and multipliers into account
     #---------------------------------------------------------------------------
     def total
-      return @memo if @memoizer && @memoizer == self.class.memoizer
-      @memoizer = self.class.memoizer
       synergies = Synergy_Bonus_Mode.total(self, 0)
-      iterms = Individual_Bonus_Mode.total(self, 0)
-      @memo = Bonus_Mode.total(self, allocations + synergies + iterms).floor
+      iterms    = Individual_Bonus_Mode.total(self, 0)
+      Bonus_Mode.total(self, allocations + synergies + iterms).floor
     end
     #---------------------------------------------------------------------------
     # * Inherited Bonus Types.
@@ -518,13 +496,14 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     # * Public instance attributes
     #---------------------------------------------------------------------------
-    attr_reader :item, :value
+    attr_reader :item
+    attr_reader :value
     #---------------------------------------------------------------------------
     # * Object Initialization
     #---------------------------------------------------------------------------
     def initialize(item, value)
-      @item       = item
-      @value      = value.to_f
+      @item  = item
+      @value = value.to_f
     end
   end
   
@@ -540,7 +519,7 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     def initialize(skill_id, value)
       @descriptor = skill_id.to_s
-      super(Get.skill(skill_id), value)
+      super($data_skills[skill_id], value)
     end
     #---------------------------------------------------------------------------
     # * The Bonus_Mode of this bonus is always SYNERGY

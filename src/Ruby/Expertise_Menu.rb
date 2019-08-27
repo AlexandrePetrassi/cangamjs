@@ -73,7 +73,7 @@ module CaRaCrAzY
   #   This is the text displayed alongside the current Expertise Point amount
   #   an actor has.
   #-----------------------------------------------------------------------------
-  XPTS_POINTS_A = "EP"
+  XPRTS_POINTS_A = "EP"
   
   #=============================================================================
   # REST OF THE SCRIPT
@@ -500,8 +500,8 @@ module CaRaCrAzY
       rect.width -= contents.text_size(" #{actor.expertise_points}").width
       #EP Text
       change_color(system_color)
-      draw_text(rect, XPTS_POINTS_A, 2)
-      width = contents.text_size(XPTS_POINTS_A).width
+      draw_text(rect, XPRTS_POINTS_A, 2)
+      width = contents.text_size(XPRTS_POINTS_A).width
       #Name
       change_color(normal_color)
       rect.x += 24
@@ -521,7 +521,7 @@ module CaRaCrAzY
       # EP Text
       rect.width -= contents.text_size(" #{actor.expertise_points}").width
       change_color(system_color)
-      draw_text(rect, XPTS_POINTS_A, 2)
+      draw_text(rect, XPRTS_POINTS_A, 2)
       # Actor's Name
       rect.x += 25
       change_color(normal_color)
@@ -597,7 +597,7 @@ module CaRaCrAzY
     # * Draws a skill's current expertise
     #---------------------------------------------------------------------------
     def draw_expertise(rect, skill)
-      base  = actor.base_expertise(skill)
+      base  = actor.expertise(skill.id).allocations
       change_color(normal_color)
       draw_text(subrect(rect, 0.6), base, 2)
     end
@@ -610,7 +610,7 @@ module CaRaCrAzY
       draw_all_items
     end
     #---------------------------------------------------------------------------
-    # * Is the current selected Expertise skill is valid for point allocation?
+    # * Is the current selected skill valid for expertise allocation?
     #---------------------------------------------------------------------------
     def allocatable?
       actor.expertise_points? && include?(item)
@@ -620,7 +620,7 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     def process_ok
       return Sound.play_buzzer unless allocatable?
-      actor.allocate_expertise(item)
+      actor.allocate_expertise(item.id)
       actor.last_expertise = item
       Sound.play_equip
       refresh
@@ -754,7 +754,7 @@ module CaRaCrAzY
       
       rect = Rect.new(x, y, width, line_height)
       change_color(system_color)
-      draw_text(subrect(rect, -0.6), XPTS_POINTS_A)
+      draw_text(subrect(rect, -0.6), XPRTS_POINTS_A)
       
       change_color(normal_color)
       draw_text(subrect(rect, 0.4), ep, 2)
@@ -886,7 +886,7 @@ module CaRaCrAzY
       alias draw_expertise_caracrazy_jl0ia27 draw_expertise
       def draw_expertise(rect, skill)
         draw_expertise_caracrazy_jl0ia27(rect, skill)
-        total = actor.total_expertise(skill)
+        total = actor.expertise(skill.id).total
         change_color(param_change_color(total))
         draw_text(subrect(rect, -0.3), "#{total}←", 2) unless total.zero?
       end

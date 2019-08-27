@@ -113,8 +113,8 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     # * Public instance attributes
     #---------------------------------------------------------------------------
-    attr_reader   :expertises       # Allocations Hash { skill_id, expertise }
-    attr_reader   :expertise_points # Unallocated Expertise Points
+    attr_reader :expertises       # Allocations Hash { skill_id, expertise }
+    attr_reader :expertise_points # Unallocated Expertise Points
     #---------------------------------------------------------------------------
     # * Object Initialization
     #---------------------------------------------------------------------------
@@ -146,13 +146,7 @@ module CaRaCrAzY
     # * Get expertise data for a given Expertise
     #---------------------------------------------------------------------------
     def expertise(skill_id)
-      expertises[skill_id] ||= Expertise.new(self.id, skill_id)
-    end
-    #---------------------------------------------------------------------------
-    # * Allocated points in a given Expertise
-    #---------------------------------------------------------------------------
-    def base_expertise(skill_id)
-      expertise(skill_id).allocations
+      expertises[skill_id] ||= Expertise.new(self, $data_skills[skill_id])
     end
     #---------------------------------------------------------------------------
     # * Awards the actor expertise_points based on its growth formula
@@ -169,16 +163,16 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     # * Removes expertise points from the actor to increase skill expertise
     #---------------------------------------------------------------------------
-    def allocate_expertise(skill, points = 1)
-      expertise(skill).allocate(points)
+    def allocate_expertise(skill_id, points = 1)
+      expertise(skill_id).allocate(points)
       self.expertise_points -= points
     end
     #---------------------------------------------------------------------------
     # * Respec all allocated expertise from an expertise skill
     #---------------------------------------------------------------------------
-    def respec_expertise(skill)
-      value = expertise(skill).allocations
-      expertise(skill).allocate(-value)
+    def respec_expertise(skill_id)
+      value = expertise(skill_id).allocations
+      expertise(skill_id).allocate(-value)
       self.expert_points += value
     end
     #---------------------------------------------------------------------------
@@ -199,6 +193,15 @@ module CaRaCrAzY
     def growth_tag
       Notetag.scan_tags(actor.note, "expertise-growth".to_sym).first
     end
+  end
+  
+  #=============================================================================
+  # ** Game_Actor
+  #-----------------------------------------------------------------------------
+  #  Expertise Checks
+  #=============================================================================
+  
+  class ::Game_Actor
     #---------------------------------------------------------------------------
     # * Makes a "dice" roll based on a difficulty rate for the actor's skill.
     #   Returns true if the value rolled is LESS THAN the skill's expertise,
@@ -214,11 +217,7 @@ module CaRaCrAzY
     #     returns: true or false, meaning success or failure respectivelly.
     #---------------------------------------------------------------------------
     def xprts_check?(skill_id, difficulty)
-      expertise = xprts(skill_id)
-      roll      = Random.rand(difficulty)
-      result    = roll < expertise
-      log "Rolling expertise: #{roll} < #{expertise} = #{result}"
-      result
+      xprts(skill_id) > Random.rand(difficulty)
     end
     #---------------------------------------------------------------------------
     # * Makes a "dice" roll based on a difficulty rate for the actor's skill.
@@ -235,11 +234,7 @@ module CaRaCrAzY
     #     returns: true or false, meaning success or failure respectivelly.
     #---------------------------------------------------------------------------
     def xprts_soft?(skill_id, difficulty)
-      expertise = xprts(skill_id)
-      roll      = Random.rand(difficulty)
-      result    = roll <= expertise
-      log "Rolling expertise: #{roll} <= #{expertise} = #{result}"
-      result
+      xprts(skill_id) >= Random.rand(difficulty)
     end
     #---------------------------------------------------------------------------
     # * Makes a "dice" roll based on a difficulty rate. Returns the difference 
@@ -258,11 +253,7 @@ module CaRaCrAzY
     #     returns : The success/failure margin expressed by an Integer.
     #---------------------------------------------------------------------------
     def xprts_rate(skill_id, difficulty)
-      expertise = xprts(skill_id)
-      roll      = Random.rand(difficulty)
-      result    = xprts(skill_id) - roll
-      log "Rolling rated expertise: #{expertise} - #{roll} = #{result}"
-      result
+      xprts(skill_id) - Random.rand(difficulty)
     end
   end
   
@@ -282,9 +273,9 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     # * Object Initialization
     #---------------------------------------------------------------------------
-    def initialize(actor_id, skill_id)
-      @actor       = Get.actor(actor_id)
-      @skill       = Get.skill(skill_id)
+    def initialize(actor, skill)
+      @actor       = actor
+      @skill       = skill
       @allocations = 0
     end
     #---------------------------------------------------------------------------

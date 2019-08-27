@@ -193,7 +193,8 @@ module CaRaCrAzY
       #     id: Actor's Database ID
       #-------------------------------------------------------------------------
       def actor(id)
-        $game_actors[id] || log "Cannot find actor of index #{id}"
+        return id if id.is_a? Game_Actor
+        $game_actors[id] || log("Cannot find actor of index #{id}")
       end
       #-------------------------------------------------------------------------
       # * Returns the actor from the party
@@ -201,63 +202,8 @@ module CaRaCrAzY
       #     id: Actor's position between 0 and 3 in current battle party
       #-------------------------------------------------------------------------
       def member(id)
-        $game_party.members[id] || log "Cannot find member of index #{id}"
-      end
-      #-------------------------------------------------------------------------
-      # * Returns the class from the database
-      #-------------------------------------------------------------------------
-      #     id: Class's Database ID
-      #-------------------------------------------------------------------------
-      def class(id)
-        $data_classes[id] || log "Cannot find class of index #{id}"
-      end
-      #-------------------------------------------------------------------------
-      # * Returns the skill from the database
-      #-------------------------------------------------------------------------
-      #     id: Skill's Database ID
-      #-------------------------------------------------------------------------
-      def skill(id)
-        $data_skills[id] || log "Cannot find skill of index #{id}"
-      end
-      #-------------------------------------------------------------------------
-      # * Returns the item from the database
-      #-------------------------------------------------------------------------
-      #     id: Item's Database ID
-      #-------------------------------------------------------------------------
-      def item(id)
-        $data_items[id] || log "Cannot find item of index #{id}"
-      end
-      #-------------------------------------------------------------------------
-      # * Returns the weapon from the database
-      #-------------------------------------------------------------------------
-      #     id: Weapon's Database ID
-      #-------------------------------------------------------------------------
-      def weapon(id)
-        $data_weapon[id] || log "Cannot find weapon of index #{id}"
-      end
-      #-------------------------------------------------------------------------
-      # * Returns the armor from the database
-      #-------------------------------------------------------------------------
-      #     id: Armor's Database ID
-      #-------------------------------------------------------------------------
-      def armor(id)
-        $data_armor[id] || log "Cannot find armor of index #{id}"
-      end
-      #-------------------------------------------------------------------------
-      # * Returns the enemy from the database
-      #-------------------------------------------------------------------------
-      #     id: Enemy's Database ID
-      #-------------------------------------------------------------------------
-      def enemy(id)
-        $data_enemies[id] || log "Cannot find enemy of index #{id}"
-      end
-      #-------------------------------------------------------------------------
-      # * Returns the troop from the database
-      #-------------------------------------------------------------------------
-      #     id: Troop's Database ID
-      #-------------------------------------------------------------------------
-      def troop(id)
-        $data_troops[id] || log "Cannot find troop of index #{id}"
+        return id if id.is_a? Game_Actor
+        $game_party.members[id] || log("Cannot find member of index #{id}")
       end
     end
   end
