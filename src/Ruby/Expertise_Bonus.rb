@@ -59,7 +59,7 @@ module CaRaCrAzY
   # ** Bonus_Mode
   #-----------------------------------------------------------------------------
   #   This class defines a Bonus_Mode Object. Bonus_Mode holds information
-  #   about how bonuses behave and how they are displayed.
+  #   about how bonuses should behave and how they are displayed.
   #=============================================================================
   
   class Bonus_Mode
@@ -80,11 +80,11 @@ module CaRaCrAzY
       @neutral_value = neutral_value
     end
     #---------------------------------------------------------------------------
-    # * List of all bonuses which are of a certain mode and scope regarding 
-    #   this particular expertise skill
-    #     mode  : the bonus mode object
-    #     scope : :party, :actor or nil
-    #       if scope is nil, all scopes are evaluated.
+    # * Retrieves, from all items in scope, bonuses of this mode which may affect 
+    #   the expertise
+    #     expertise : The Expertise Object (skill-actor pair)
+    #
+    #     returns : Array with every bonus for this expertise in scope
     #---------------------------------------------------------------------------
     def bonuses(expertise)
       self.class.scopes(expertise).flat_map do |tag, list|
@@ -92,8 +92,13 @@ module CaRaCrAzY
       end
     end
     #---------------------------------------------------------------------------
-    # * Retrieves all pertinent bonuses for this expertise that are contained
-    #   inside a given item and matches the given scope and mode.
+    # * Retrieves, from a given item, every bonus matching this mode which may 
+    #   affect the expertise
+    #     expertise : The Expertise Object (skill-actor pair)
+    #     item      : The item which is being inspected for bonuses
+    #     scope     : The scope being searched
+    #
+    #     returns : Array with every bonus for this expertise in the item
     #---------------------------------------------------------------------------
     def retrieve_bonuses(expertise, item, scope)
       item.bonuses(self, scope).select do |bonus|
@@ -101,7 +106,8 @@ module CaRaCrAzY
       end
     end
     #---------------------------------------------------------------------------
-    # * Sum or product of all Bonus Type products
+    # * Sum or product of all values from all bonuses matching this mode
+    #     expertise : The Expertise Object (skill-actor pair)
     #---------------------------------------------------------------------------
     def total_bonus(expertise)      
       bonuses(expertise)
@@ -111,6 +117,7 @@ module CaRaCrAzY
     end
     #---------------------------------------------------------------------------
     # * Sum or product of all Bonus Type products
+    #     expertise : The Expertise Object (skill-actor pair)
     #---------------------------------------------------------------------------
     def self.total(expertise, base = 0)
       BONUSES.reduce(base) do |base, mode|
@@ -119,6 +126,8 @@ module CaRaCrAzY
     end
     #---------------------------------------------------------------------------
     # * Scopes hash
+    #     expertise : The Expertise Object (skill-actor pair)
+    #
     #     returns: Array of BaseItems that may grant bonuses to this expertise.
     #---------------------------------------------------------------------------
     def self.scopes(expertise)
@@ -175,7 +184,7 @@ module CaRaCrAzY
     def self.total(expertise, base = 0)
       expertise.descriptors
         .map { |descriptor| descriptor_term(expertise, descriptor) }
-        .select(&:positive?).reduce(0,:+)
+        .select(&:positive?).reduce(0, :+)
     end
   end
   
@@ -201,7 +210,7 @@ module CaRaCrAzY
       actor = expertise.actor
       SYNERGY.bonuses(expertise)
         .map { |bonus| actor.expertise(bonus.item.id).allocations * bonus.value }
-        .reduce(0,:+).floor
+        .reduce(0, :+).floor
     end
   end
   
@@ -420,12 +429,12 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     # * Object Initialization
     #---------------------------------------------------------------------------
-    def initialize(item,value,desc = "",enabled = nil,mode = nil,scope = DEFAULT_SCOPE)
+    def initialize(item, value, desc = "", enabled = nil, mode = nil, scope = nil)
       super(item, value)
       @descriptor = desc.to_s
       @enabled    = eval("Proc.new {|a, i| #{(enabled || true).to_s} }")
       @mode       = mode
-      @scope      = scope
+      @scope      = scope || DEFAULT_SCOPE
     end
     #---------------------------------------------------------------------------
     # Text's color
