@@ -44,7 +44,7 @@ module CaRaCrAzY
 
   ##############################################################################
   # Aspect_Inventory
-  #-----------------------------------------------------------------------------
+  #=============================================================================
   #   Manages the caching of a Base_Items list associated with battle members,
   # like a personal inventory for each actor.
   ##############################################################################
@@ -231,6 +231,7 @@ module CaRaCrAzY
       end
       #-------------------------------------------------------------------------
       # * Shrinks a bitmap by half its size while performing smoothing
+      #     bitmap     : the image being halved
       #     recursions : additional iterations for shrinking to 1/4, 1/8...
       #-------------------------------------------------------------------------
       def shrink(bitmap, recursions = 0)
@@ -250,7 +251,11 @@ module CaRaCrAzY
     end
     #-------------------------------------------------------------------------
     # * Draw Face Graphic
-    #     enabled : Enabled flag. When false, draw semi-transparently.
+    #     face_name  : the faceset's file name in the cache module
+    #     face_index : the face's index in the faceset
+    #     x          : Horizontal position the face will render on screen
+    #     y          : Vertical position the face will render on screen
+    #     enabled    : Enabled flag. When false, draw semi-transparently.
     #-------------------------------------------------------------------------
     def draw_face_icon(face_name, face_index, x, y, enabled = true)
       bitmap = Window.face_icon(face_name)
@@ -259,6 +264,7 @@ module CaRaCrAzY
     end
     #---------------------------------------------------------------------------
     # * Slices a rect
+    #     rect       : the reference rect
     #     horizontal : slice's horizontal ratio between -1.0 and 1.0
     #     vertical   : slice's vertical ratio between -1.0 and 1.0
     #---------------------------------------------------------------------------
@@ -281,6 +287,31 @@ module CaRaCrAzY
       d = rect.height - h.abs
       
       Rect.new(a, b, c, d)
+    end
+    #---------------------------------------------------------------------------
+    # * Destructively slices a rect
+    #     rect       : the rect being mutated
+    #     horizontal : slice's horizontal ratio between -1.0 and 1.0
+    #     vertical   : slice's vertical ratio between -1.0 and 1.0
+    #---------------------------------------------------------------------------
+    #   Inputing positive ratios results in an amount of the width or height to
+    #   be taken away and put back into the x or y position for compensation, 
+    #   without changing its ending bounds.
+    #
+    #   Inputing negative ratios results in just taking the width or height 
+    #   away, without compensating x or y values, thus changing the rect's
+    #   ending bounds while leaving its starting bounds untouched.
+    #---------------------------------------------------------------------------
+    def subrect!(rect, horizontal, vertical = 0.0)
+      w = rect.width  * horizontal
+      h = rect.height * vertical
+      
+      rect.x      += [w, 0].max
+      rect.width  -= w.abs
+      rect.y      += [h, 0].max
+      rect.height -= h.abs
+      
+      return rect
     end
   end
   
