@@ -155,7 +155,10 @@ module CaRaCrAzY
     # * Formula for calculating how many points the actor gains on Level Up
     #---------------------------------------------------------------------------
     def expertise_growth
-      inventory.reverse.find(GROWTH_LAMBDA, &:expertise_growth)
+      inventory.
+        .reverse
+        .map(&:expertise_growth)
+        .find(GROWTH_LAMBDA) { |growth| growth }
     end
   end
 
@@ -172,14 +175,16 @@ module CaRaCrAzY
     def expertise_growth
       return @expertise_growth if @expertise_growth_memo
       @expertise_growth_memo = true
-      @expertise_growth ||= retrieve_growth_data
+      @expertise_growth = retrieve_growth_data
     end
     #---------------------------------------------------------------------------
     # * Growth formula from a retrieved <expertise_growth> notetag.
     #   If the notetag is not found, returns the default formula instead
     #---------------------------------------------------------------------------
     def retrieve_growth_data
-      match = growth_tag ? eval("lambda {|a| #{match[:lu]} }") : nil
+      if match = growth_tag
+        eval("lambda {|a| #{match[:lu]} }")
+     end
     end
     #---------------------------------------------------------------------------
     # * Match_data from one match of:

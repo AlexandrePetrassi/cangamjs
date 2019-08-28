@@ -38,17 +38,18 @@ module CaRaCrAzY
   # * Debug mode
   #-----------------------------------------------------------------------------
   #  Scripts requiring this module may log info in the game console.
-  #  Disable this flag if you do not wish those info being logged.
+  #  Disable this flag if you do not wish info being logged.
   #-----------------------------------------------------------------------------
   DEBUG = true
 
   ##############################################################################
-  # Local Inventory
+  # Aspect_Inventory
   #-----------------------------------------------------------------------------
-  #   Manages the memoization of all items associated with individual actors
+  #   Manages the caching of a Base_Items list associated with battle members,
+  # like a personal inventory for each actor.
   ##############################################################################
 
-  module LocalInventory_Aspect
+  module Aspect_Inventory
 
     #===========================================================================
     # ** Game_Player
@@ -150,10 +151,10 @@ module CaRaCrAzY
       #   means: Inventory Items, Equiped Items, Skills, States, Classes and the
       #   actors themselves.
       #-------------------------------------------------------------------------
-      def all_base_items
-        return @all_party_base_items unless need_refresh
+      def inventory
+        return @inventory unless need_refresh
         @need_refresh = false
-        @all_party_base_items = battle_members
+        @inventory = battle_members
           .map { |actor| actor.inventory(true) }
           .concat(all_items)
           .flatten
@@ -176,7 +177,7 @@ module CaRaCrAzY
       # * Game_Actor's particular memoized inventory
       #-------------------------------------------------------------------------
       def inventory(force_refresh = false)
-        return @inventory unless need_refresh || force_refresh
+        return @inventory unless need_refresh || force_refresh || !@inventory
         need_refresh = false
         @inventory = all_base_items
       end
@@ -361,8 +362,10 @@ module CaRaCrAzY
   class ::Hash;    def to_h;      self;       end; end
   class ::Numeric; def positive?; self >= 0;  end; end
 
-  def self.log(info);            end unless DEBUG
-  def self.log(info); puts info; end if     DEBUG
+  class ::Object
+    def log(info);            end unless DEBUG
+    def log(info); puts info; end if     DEBUG
+  end unless Object.methods.include?(:log) 
     
 end
   

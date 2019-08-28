@@ -123,7 +123,7 @@ module CaRaCrAzY
     #---------------------------------------------------------------------------
     def self.scopes(expertise)
       Hash[
-        :party => $game_party.all_base_items,
+        :party => $game_party.inventory,
         :actor => expertise.actor.inventory,
       ]
     end
