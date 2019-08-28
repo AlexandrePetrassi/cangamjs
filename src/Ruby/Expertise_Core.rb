@@ -203,13 +203,19 @@ module CaRaCrAzY
   
   class ::Game_Actor
     #---------------------------------------------------------------------------
-    # * Get the total expertise value of a skill
+    # * Get the expertise value of a skill
+    #     skill_id : Skill's ID in the Data Base
     #---------------------------------------------------------------------------
     def xprts(skill_id)
       expertise(skill_id).allocations
     end
     #---------------------------------------------------------------------------
     # * Makes a "dice" roll based on a difficulty rate for the actor's skill.
+    #     skill_id   : Skill's ID in the Data Base
+    #     difficulty : Random Number's highest possible value
+    #
+    #     returns: true or false, meaning success or failure respectivelly.
+    #---------------------------------------------------------------------------
     #   Returns true if the value rolled is LESS THAN the skill's expertise,
     #   otherwise returns false.
     #
@@ -217,16 +223,16 @@ module CaRaCrAzY
     #   failure, which means skills with zero expertise will NEVER succeed
     #   the check.
     #---------------------------------------------------------------------------
-    #     skill_id   : Skill's ID in the Data Base
-    #     difficulty : Random Number's highest possible value
-    #
-    #     returns: true or false, meaning success or failure respectivelly.
-    #---------------------------------------------------------------------------
     def xprts_check?(skill_id, difficulty)
       xprts(skill_id) > Random.rand(difficulty)
     end
     #---------------------------------------------------------------------------
     # * Makes a "dice" roll based on a difficulty rate for the actor's skill.
+    #     skill_id   : Skill's ID in the Data Base
+    #     difficulty : Random Number's highest possible value
+    #
+    #     returns : true or false, meaning success or failure respectivelly.
+    #---------------------------------------------------------------------------
     #   Returns true if the value rolled is LESS THAN OR EQUALS TO the skill's
     #   expertise, otherwise returns false.
     #
@@ -234,29 +240,23 @@ module CaRaCrAzY
     #   success, which means skills with zero expertise still has a chance of
     #   succeeding the check.
     #---------------------------------------------------------------------------
-    #     skill_id   : Skill's ID in the Data Base
-    #     difficulty : Random Number's highest possible value
-    #
-    #     returns: true or false, meaning success or failure respectivelly.
-    #---------------------------------------------------------------------------
     def xprts_soft?(skill_id, difficulty)
       xprts(skill_id) >= Random.rand(difficulty)
     end
     #---------------------------------------------------------------------------
     # * Makes a "dice" roll based on a difficulty rate. Returns the difference 
     #   between the number rolled and the expertise.
+    #     skill_id   : Skill's ID in the Data Base
+    #     difficulty : Random Number's highest possible value
     #
+    #     returns : The success/failure margin expressed by an Integer.
+    #---------------------------------------------------------------------------
     #   Positive numbers mean successes and negative numbers mean failures.
     #
     #   Bear in mind that is up to you, as a developer, to treat zero as a 
     #   failure or a success.
     #   Skills with zero expertise won't have a chance of succeding if zero is
     #   accounted as a failure.
-    #---------------------------------------------------------------------------
-    #     skill_id   : Skill's ID in the Data Base
-    #     difficulty : Random Number's highest possible value
-    #
-    #     returns : The success/failure margin expressed by an Integer.
     #---------------------------------------------------------------------------
     def xprts_rate(skill_id, difficulty)
       xprts(skill_id) - Random.rand(difficulty)
@@ -285,7 +285,8 @@ module CaRaCrAzY
       @allocations = 0
     end
     #---------------------------------------------------------------------------
-    # * Total allocated points
+    # * Allocate expertise points to the skill
+    #     value : quantity of points to be allocated
     #---------------------------------------------------------------------------
     def allocate(value = 1)
       @allocations += value
