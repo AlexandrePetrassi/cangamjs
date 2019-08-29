@@ -373,8 +373,7 @@ module CaRaCrAzY
       #     id: Actor's Database ID
       #-------------------------------------------------------------------------
       def actor(id)
-        return id if id.is_a? Game_Actor
-        $game_actors[id] || log("Cannot find actor of index #{id}")
+        $game_actors[id] || msgbox("Cannot find actor of index #{id}")
       end
       #-------------------------------------------------------------------------
       # * Returns the actor from the party
@@ -382,8 +381,7 @@ module CaRaCrAzY
       #     id: Actor's position between 0 and 3 in current battle party
       #-------------------------------------------------------------------------
       def member(id)
-        return id if id.is_a? Game_Actor
-        $game_party.members[id] || log("Cannot find member of index #{id}")
+        $game_party.members[id] || msgbox("Cannot find member of index #{id}")
       end
     end
   end
@@ -392,10 +390,8 @@ module CaRaCrAzY
   class ::Hash;    def to_h;      self;       end; end
   class ::Numeric; def positive?; self >= 0;  end; end
 
-  class ::Object
-    def log(info);            end unless DEBUG
-    def log(info); puts info; end if     DEBUG
-  end unless Object.methods.include?(:log) 
+
+  def Kernel.msgbox(*args); end unless DEBUG 
     
 end if ($imported ||= {})[:CaRaCrAzY_Core]
   
