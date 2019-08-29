@@ -18,7 +18,7 @@
 # Script   : Expertise Core
 # Author   : CaRa_CrAzY Petrassi
 # Level    : 
-# Requires : n/a
+# Requires : CaRaCrAzY_Core, CaRaCrAzY_Expertise
 # Version  : 0.00
 # Date     : 1900.01.01
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -864,12 +864,12 @@ module CaRaCrAzY
     end
   end
   
-  #=============================================================================
+  ##############################################################################
   # ** Expertise_Menu_x_Expertise_Bonus_Patches
-  #-----------------------------------------------------------------------------
-  # Compatibility patches for Expertise_Bonus
-  # This modules is only added to the game if Expertise_Bonus is present
   #=============================================================================
+  # Compatibility patches for Expertise_Bonus
+  # This module is only added to the game if Expertise_Bonus is present
+  ##############################################################################
   
   module Expertise_Menu_x_Expertise_Bonus_Patches
     
@@ -906,8 +906,12 @@ module CaRaCrAzY
         @descriptors ||= retrieve_bonus_from_data + [xtype.to_s.downcase, id.to_s]
       end
     end
-  end if ($imported[:CaRaCrAzY_Expertise_Bonus] || 0) >= 1.00
-end
+  end if $imported[:CaRaCrAzY_Expertise_Bonus]
+end if ([ # Script Requirements
+  :CaRaCrAzY_Core,
+  :CaRaCrAzY_Expertise,
+  :CaRaCrAzY_Expertise_Menu,
+] - ($imported ||= {}).keys).empty?
 
 #-------------------------------------------------------------------------------
 # End of script.

@@ -18,12 +18,12 @@
 # Script   : Expertise Core
 # Author   : CaRa_CrAzY Petrassi
 # Level    : 
-# Requires : n/a
+# Requires : CaRaCrAzY_Core
 # Version  : 0.00
 # Date     : 1900.01.01
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-($imported ||= {})[:CaRaCrAzY_Expertise_Core] = 1.00
+($imported ||= {})[:CaRaCrAzY_Expertise] = 1.00
 
 #===============================================================================
 # ** CaRaCrAzY
@@ -155,7 +155,7 @@ module CaRaCrAzY
     # * Formula for calculating how many points the actor gains on Level Up
     #---------------------------------------------------------------------------
     def expertise_growth
-      inventory.
+      inventory
         .reverse
         .map(&:expertise_growth)
         .find(GROWTH_LAMBDA) { |growth| growth }
@@ -292,7 +292,10 @@ module CaRaCrAzY
       @allocations += value
     end
   end
-end
+end if ([ # Script Requirements
+  :CaRaCrAzY_Core, 
+  :CaRaCrAzY_Expertise,
+] - ($imported ||= {}).keys).empty?
 
 #-------------------------------------------------------------------------------
 # End of script.

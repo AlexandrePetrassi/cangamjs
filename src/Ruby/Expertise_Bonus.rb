@@ -18,7 +18,7 @@
 # Script   : Expertise Core
 # Author   : CaRa_CrAzY Petrassi
 # Level    : 
-# Requires : n/a
+# Requires : CaRaCrAzY_Core, CaRaCrAzY_Expertise
 # Version  : 0.00
 # Date     : 1900.01.01
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -80,8 +80,8 @@ module CaRaCrAzY
       @neutral_value = neutral_value
     end
     #---------------------------------------------------------------------------
-    # * Retrieves, from all items in scope, bonuses of this mode which may affect 
-    #   the expertise
+    # * Retrieves, from all items in scope, bonuses of this mode which may 
+    #   affect the expertise.
     #     expertise : The Expertise Object (skill-actor pair)
     #
     #     returns : Array with every bonus for this expertise in scope
@@ -93,7 +93,7 @@ module CaRaCrAzY
     end
     #---------------------------------------------------------------------------
     # * Retrieves, from a given item, every bonus matching this mode which may 
-    #   affect the expertise
+    #   affect the expertise.
     #     expertise : The Expertise Object (skill-actor pair)
     #     item      : The item which is being inspected for bonuses
     #     scope     : The scope being searched
@@ -449,7 +449,11 @@ module CaRaCrAzY
       actor && @enabled ? @enabled.(actor, item) : super
     end
   end
-end
+end if ([ # Script Requirements
+  :CaRaCrAzY_Core,
+  :CaRaCrAzY_Expertise,
+  :CaRaCrAzY_Expertise_Bonus,
+] - ($imported ||= {}).keys).empty?
 
 #-------------------------------------------------------------------------------
 # End of script.
