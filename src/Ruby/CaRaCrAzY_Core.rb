@@ -266,6 +266,8 @@ module CaRaCrAzY
     #     rect       : the reference rect
     #     horizontal : slice's horizontal ratio between -1.0 and 1.0
     #     vertical   : slice's vertical ratio between -1.0 and 1.0
+    #
+    #     returns: New sliced rect instance
     #---------------------------------------------------------------------------
     #   Inputing positive ratios results in an amount of the width or height to
     #   be taken away and put back into the x or y position for compensation, 
@@ -289,9 +291,11 @@ module CaRaCrAzY
     end
     #---------------------------------------------------------------------------
     # * Destructively slices a rect
-    #     rect       : the rect being mutated
+    #     rect       : the rect being sliced
     #     horizontal : slice's horizontal ratio between -1.0 and 1.0
     #     vertical   : slice's vertical ratio between -1.0 and 1.0
+    #
+    #     returns: The rect itself after slicing
     #---------------------------------------------------------------------------
     #   Inputing positive ratios results in an amount of the width or height to
     #   be taken away and put back into the x or y position for compensation, 
@@ -324,9 +328,10 @@ module CaRaCrAzY
     class << self
       #-------------------------------------------------------------------------
       # * Extracts notetag data matching the given pattern type
-      #-------------------------------------------------------------------------
       #     note : The note field or string
       #     tag  : The tag's name i.e. :Expertise will search for <Expertise>
+      #
+      #     returns: Array of MatchData objects holding matched notetags info
       #-------------------------------------------------------------------------
       def scan_tags(note, tag)
         note.to_enum(:scan, regex(tag)).map { Regexp.last_match }
@@ -368,20 +373,22 @@ module CaRaCrAzY
   class ::Get
     class << self
       #-------------------------------------------------------------------------
-      # * Returns the actor from the database
-      #-------------------------------------------------------------------------
+      # * Easy actor access from the database
       #     id: Actor's Database ID
+      #
+      #     returns: the actor from the database
       #-------------------------------------------------------------------------
       def actor(id)
-        $game_actors[id] || msgbox("Cannot find actor of index #{id}")
+        $game_actors[id] || log("Cannot find actor of index #{id}")
       end
       #-------------------------------------------------------------------------
-      # * Returns the actor from the party
-      #-------------------------------------------------------------------------
+      # * Easy party member access from the party
       #     id: Actor's position between 0 and 3 in current battle party
+      #
+      #     returns: the actor from the party
       #-------------------------------------------------------------------------
       def member(id)
-        $game_party.members[id] || msgbox("Cannot find member of index #{id}")
+        $game_party.members[id] || log("Cannot find member of index #{id}")
       end
     end
   end
@@ -389,10 +396,26 @@ module CaRaCrAzY
   class ::Object;  def to_h;      Hash[self]; end; end
   class ::Hash;    def to_h;      self;       end; end
   class ::Numeric; def positive?; self >= 0;  end; end
-
-
-  def Kernel.msgbox(*args); end unless DEBUG 
-    
+  
+  module ::Kernel;
+    private
+    if DEBUG
+      (def log(*args); puts(*args); nil; end)
+    else
+      (def log(*args);              nil; end)
+    end
+  end
+  
+  class ::Get
+    class << self
+      @requirements = {}
+      def requirements?(symbol)
+        return false unless @requirements[symbol]
+        return true
+      end
+    end
+  end
+  
 end if ($imported ||= {})[:CaRaCrAzY_Core]
   
 #-------------------------------------------------------------------------------
