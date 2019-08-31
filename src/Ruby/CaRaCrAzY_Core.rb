@@ -232,6 +232,8 @@ module CaRaCrAzY
       # * Shrinks a bitmap by half its size while performing smoothing
       #     bitmap     : the image being halved
       #     recursions : additional iterations for shrinking to 1/4, 1/8...
+      #
+      #     returns: A shrinked bitmap
       #-------------------------------------------------------------------------
       def shrink(bitmap, recursions = 0)
         result = Bitmap.new(bitmap.width / 2, bitmap.height / 2)
@@ -244,6 +246,10 @@ module CaRaCrAzY
     end
     #-------------------------------------------------------------------------
     # * Draw Actor Face Graphic
+    #     actor   : Actor which will have its face graphic rendered as an icon
+    #     x       : X position on screen the icon will start rendering
+    #     y       : Y position on screen the icon will start rendering
+    #     enabled : if true, renders the icon translucently
     #-------------------------------------------------------------------------
     def draw_actor_icon(actor, x, y, enabled = true)
       draw_face_icon(actor.face_name, actor.face_index, x, y, enabled)
@@ -399,24 +405,15 @@ module CaRaCrAzY
   
   module ::Kernel;
     private
-    if DEBUG
-      (def log(*args); puts(*args); nil; end)
-    else
-      (def log(*args);              nil; end)
-    end
+    def log(*args); puts(*args); nil; end if     DEBUG
+    def log(*args);              nil; end unless DEBUG
   end
-  
-  class ::Get
-    class << self
-      @requirements = {}
-      def requirements?(symbol)
-        return false unless @requirements[symbol]
-        return true
-      end
-    end
+
+  def Get.require(*scripts)
+    (scripts - ($imported ||= {}).keys).empty?
   end
-  
-end if ($imported ||= {})[:CaRaCrAzY_Core]
+
+end if ($imported ||= {})[:CaRaCrAzY_Core] && Get.require
   
 #-------------------------------------------------------------------------------
 # End of script.

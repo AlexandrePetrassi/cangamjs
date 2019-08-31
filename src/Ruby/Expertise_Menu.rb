@@ -907,11 +907,7 @@ module CaRaCrAzY
       end
     end
   end if $imported[:CaRaCrAzY_Expertise_Bonus]
-end if ([ # Script Requirements
-  :CaRaCrAzY_Core,
-  :CaRaCrAzY_Expertise,
-  :CaRaCrAzY_Expertise_Menu,
-] - ($imported ||= {}).keys).empty?
+end if ($imported ||= {})[:CaRaCrAzY_Core] && Get.require :CaRaCrAzY_Expertise
 
 #-------------------------------------------------------------------------------
 # End of script.

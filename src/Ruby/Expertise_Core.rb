@@ -292,10 +292,7 @@ module CaRaCrAzY
       @allocations += value
     end
   end
-end if ([ # Script Requirements
-  :CaRaCrAzY_Core, 
-  :CaRaCrAzY_Expertise,
-] - ($imported ||= {}).keys).empty?
+end if ($imported ||= {})[:CaRaCrAzY_Core] && Get.require :Expertise_Core
 
 #-------------------------------------------------------------------------------
 # End of script.

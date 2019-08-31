@@ -449,11 +449,7 @@ module CaRaCrAzY
       actor && @enabled ? @enabled.(actor, item) : super
     end
   end
-end if ([ # Script Requirements
-  :CaRaCrAzY_Core,
-  :CaRaCrAzY_Expertise,
-  :CaRaCrAzY_Expertise_Bonus,
-] - ($imported ||= {}).keys).empty?
+end if ($imported ||= {})[:CaRaCrAzY_Core] && Get.require :CaRaCrAzY_Expertise
 
 #-------------------------------------------------------------------------------
 # End of script.
