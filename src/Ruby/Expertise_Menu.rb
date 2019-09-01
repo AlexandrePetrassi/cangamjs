@@ -23,7 +23,12 @@
 # Date     : 1900.01.01
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-($imported ||= {})[:CaRaCrAzY_Expertise_Menu] = 1.00
+($imported ||= {})[:CCPet_Expertise_Menu] = true
+
+$imported[:CCPet_Expertise_Menu] = {
+  :version    => 1.00,
+  :requires   => [:CCPet_Expertise_Core],
+} if ($imported ||= {})[:CCPet_Expertise_Menu]
 
 #===============================================================================
 # ** CaRaCrAzY
@@ -906,8 +911,8 @@ module CaRaCrAzY
         @descriptors ||= retrieve_bonus_from_data + [xtype.to_s.downcase, id.to_s]
       end
     end
-  end if $imported[:CaRaCrAzY_Expertise_Bonus]
-end if ($imported ||= {})[:CaRaCrAzY_Core] && Get.require :CaRaCrAzY_Expertise
+  end if $imported[:CCPet_Expertise_Bonus]
+end if ($imported ||= {})[:CCPet] && Get.requires_met?(:CCPet_Expertise_Menu)
 
 #-------------------------------------------------------------------------------
 # End of script.

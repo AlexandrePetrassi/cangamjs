@@ -15,7 +15,7 @@
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # ▼ Script Information
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# Script   : Expertise Core
+# Script   : CaRaCrAzY Core
 # Author   : CaRa_CrAzY Petrassi
 # Level    : 
 # Requires : n/a
@@ -23,7 +23,12 @@
 # Date     : 1900.01.01
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-($imported ||= {})[:CaRaCrAzY_Core] = 1.00
+($imported ||= {})[:CCPet] = true
+
+$imported[:CCPet] = {
+  :version    => 1.00,
+  :requires   => [],
+} if ($imported ||= {})[:CCPet]
 
 #===============================================================================
 # ** CaRaCrAzY
@@ -379,7 +384,7 @@ module CaRaCrAzY
   class ::Get
     class << self
       #-------------------------------------------------------------------------
-      # * Easy actor access from the database
+      # * Easy database actor access
       #     id: Actor's Database ID
       #
       #     returns: the actor from the database
@@ -388,7 +393,7 @@ module CaRaCrAzY
         $game_actors[id] || log("Cannot find actor of index #{id}")
       end
       #-------------------------------------------------------------------------
-      # * Easy party member access from the party
+      # * Easy battle party member access
       #     id: Actor's position between 0 and 3 in current battle party
       #
       #     returns: the actor from the party
@@ -408,12 +413,16 @@ module CaRaCrAzY
     def log(*args); puts(*args); nil; end if     DEBUG
     def log(*args);              nil; end unless DEBUG
   end
-
-  def Get.require(*scripts)
-    (scripts - ($imported ||= {}).keys).empty?
+    
+  class ::Get  
+    def self.requires_met?(script)
+      $imported[script] && !$imported[script]
+        .to_h[:requires]
+        .to_a.detect { |x| !Get.requires_met? x }
+    end
   end
 
-end if ($imported ||= {})[:CaRaCrAzY_Core] && Get.require
+end if ($imported ||= {})[:CCPet]
   
 #-------------------------------------------------------------------------------
 # End of script.

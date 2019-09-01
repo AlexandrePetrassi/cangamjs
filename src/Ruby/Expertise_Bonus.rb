@@ -15,7 +15,7 @@
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # ▼ Script Information
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# Script   : Expertise Core
+# Script   : Expertise Bonus
 # Author   : CaRa_CrAzY Petrassi
 # Level    : 
 # Requires : CaRaCrAzY_Core, CaRaCrAzY_Expertise
@@ -23,7 +23,12 @@
 # Date     : 1900.01.01
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-($imported ||= {})[:CaRaCrAzY_Expertise_Bonus] = 1.00
+($imported ||= {})[:CCPet_Expertise_Bonus] = true
+
+$imported[:CCPet_Expertise_Bonus] = {
+  :version    => 1.00,
+  :requires   => [:CCPet_Expertise_Core],
+} if ($imported ||= {})[:CCPet_Expertise_Bonus]
 
 #===============================================================================
 # ** CaRaCrAzY
@@ -449,7 +454,7 @@ module CaRaCrAzY
       actor && @enabled ? @enabled.(actor, item) : super
     end
   end
-end if ($imported ||= {})[:CaRaCrAzY_Core] && Get.require :CaRaCrAzY_Expertise
+end if ($imported ||= {})[:CCPet] && Get.requires_met?(:CCPet_Expertise_Bonus)
 
 #-------------------------------------------------------------------------------
 # End of script.

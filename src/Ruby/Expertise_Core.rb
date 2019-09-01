@@ -15,7 +15,7 @@
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # ▼ Script Information
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# Script   : Expertise Core
+# Script   : Expertise
 # Author   : CaRa_CrAzY Petrassi
 # Level    : 
 # Requires : CaRaCrAzY_Core
@@ -23,7 +23,12 @@
 # Date     : 1900.01.01
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-($imported ||= {})[:CaRaCrAzY_Expertise] = 1.00
+($imported ||= {})[:CCPet_Expertise_Core] = true
+
+$imported[:CCPet_Expertise_Core] = {
+  :version    => 1.00,
+  :requires   => [:CCPet],
+} if ($imported ||= {})[:CCPet_Expertise_Core]
 
 #===============================================================================
 # ** CaRaCrAzY
@@ -292,7 +297,7 @@ module CaRaCrAzY
       @allocations += value
     end
   end
-end if ($imported ||= {})[:CaRaCrAzY_Core] && Get.require :Expertise_Core
+end if ($imported ||= {})[:CCPet] && Get.requires_met?(:CCPet_Expertise_Core)
 
 #-------------------------------------------------------------------------------
 # End of script.
