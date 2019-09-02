@@ -422,8 +422,8 @@ module CaRaCrAzY
   
   module ::Kernel;
     private
-    def log(*args); puts(*args); nil; end if     DEBUG
-    def log(*args);              nil; end unless DEBUG
+    def log(*args); puts(*args); end if     DEBUG
+    def log(*args);         nil; end unless DEBUG
   end
 
 end if ($imported ||= {})[:CCPet]
