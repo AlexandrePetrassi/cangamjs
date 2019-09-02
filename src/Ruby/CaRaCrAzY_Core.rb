@@ -25,9 +25,8 @@
 
 ($imported ||= {})[:CCPet] = true
 
-$imported[:CCPet] = {
-  :version    => 1.00,
-  :requires   => [],
+$imported[:CCPet] = { version: 1.00,
+  requires: { }
 } if ($imported ||= {})[:CCPet]
 
 #===============================================================================
@@ -401,6 +400,18 @@ module CaRaCrAzY
       def member(id)
         $game_party.members[id] || log("Cannot find member of index #{id}")
       end
+      #-------------------------------------------------------------------------
+      # * Validates script requirements
+      #     script: Symbol used to define the script in the $imported hash
+      #
+      #     returns: true if the requirements are met
+      #-------------------------------------------------------------------------
+      def requires_met?(script, version = 0)
+        return false unless $imported[script]
+        return false unless ($imported[script].to_h[:version] || 0) >= version
+        dependencies = $imported[script].to_h[:requires].to_h
+        dependencies.keys.all? { |k| requires_met?(k, dependencies[k]) }
+      end
     end
   end
   
@@ -412,14 +423,6 @@ module CaRaCrAzY
     private
     def log(*args); puts(*args); nil; end if     DEBUG
     def log(*args);              nil; end unless DEBUG
-  end
-    
-  class ::Get  
-    def self.requires_met?(script)
-      $imported[script] && !$imported[script]
-        .to_h[:requires]
-        .to_a.detect { |x| !Get.requires_met? x }
-    end
   end
 
 end if ($imported ||= {})[:CCPet]

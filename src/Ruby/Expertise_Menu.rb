@@ -25,9 +25,8 @@
 
 ($imported ||= {})[:CCPet_Expertise_Menu] = true
 
-$imported[:CCPet_Expertise_Menu] = {
-  :version    => 1.00,
-  :requires   => [:CCPet_Expertise_Core],
+$imported[:CCPet_Expertise_Menu] = { version: 1.00,
+  requires: { CCPet_Expertise_Core: 1.00 }
 } if ($imported ||= {})[:CCPet_Expertise_Menu]
 
 #===============================================================================
