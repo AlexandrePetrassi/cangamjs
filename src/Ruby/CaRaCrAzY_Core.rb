@@ -403,6 +403,7 @@ module CaRaCrAzY
       #-------------------------------------------------------------------------
       # * Validates script requirements
       #     script: Symbol used to define the script in the $imported hash
+      #     version: (used only for recursive calls) Minimum version number
       #
       #     returns: true if the requirements are met
       #-------------------------------------------------------------------------
