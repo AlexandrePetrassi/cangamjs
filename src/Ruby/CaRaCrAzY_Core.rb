@@ -23,11 +23,11 @@
 # Date     : 1900.01.01
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-($imported ||= {})[:CCPet] = true
-
-$imported[:CCPet] = { version: 1.00,
+($imported ||= {})[:CCPet] = true &&
+{
+  version:  1.00,
   requires: { }
-} if ($imported ||= {})[:CCPet]
+}
 
 #===============================================================================
 # ** CaRaCrAzY
@@ -425,8 +425,52 @@ module CaRaCrAzY
     def log(*args); puts(*args); end if     DEBUG
     def log(*args);         nil; end unless DEBUG
   end
+    
+  class Import < ::Hash
+    def initialize(hash)
+      @hash = hash
+    end
 
-end if ($imported ||= {})[:CCPet]
+    def to_s
+      @hash.to_s
+    end
+
+    def to_i
+      @hash[:version].floor
+    end
+    
+    def to_f
+      @hash[:version]
+    end
+
+    def coerce(other)
+      [self.class.new(@hash[:version]), self]
+    end
+
+    def <=>(other)
+      to_f <=> other.to_f
+    end
+
+    def +(other)
+      self.class.new('|' * (to_f + other.to_f))
+    end
+
+    def -(other)
+      self.class.new('|' * (to_f - other.to_f))
+    end
+
+    def *(other)
+      self.class.new('|' * (to_f * other.to_f))
+    end
+
+    def /(other)
+      self.class.new('|' * (to_f / other.to_f))
+    end
+  end
+
+  #$imported[:CCPet] = Import.new $imported[:CCPet]
+  
+end if $imported[:CCPet]
   
 #-------------------------------------------------------------------------------
 # End of script.

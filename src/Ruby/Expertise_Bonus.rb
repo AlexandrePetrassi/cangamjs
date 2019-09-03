@@ -23,11 +23,11 @@
 # Date     : 1900.01.01
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-($imported ||= {})[:CCPet_Expertise_Bonus] = true
-
-$imported[:CCPet_Expertise_Bonus] = { version:  1.00,
+($imported ||= {})[:CCPet_Expertise_Bonus] = true && 
+{
+  version:  1.00,
   requires: { CCPet_Expertise_Core: 1.00 }
-} if ($imported ||= {})[:CCPet_Expertise_Bonus]
+}
 
 #===============================================================================
 # ** CaRaCrAzY
