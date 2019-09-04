@@ -23,7 +23,7 @@
 # Date     : 1900.01.01
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-($imported ||= {})[:CCPet_Expertise_Core] = true && 
+($imported ||= {})[:CCPet_Expertise_Core] = true &&
 {
   version:  1.00,
   requires: { CCPet: 1.00 }

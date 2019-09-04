@@ -408,10 +408,9 @@ module CaRaCrAzY
       #     returns: true if the requirements are met
       #-------------------------------------------------------------------------
       def requires_met?(script, version = 0)
-        return false unless $imported[script]
-        return false unless ($imported[script].to_h[:version] || 0) >= version
-        dependencies = $imported[script].to_h[:requires].to_h
-        dependencies.keys.all? { |k| requires_met?(k, dependencies[k]) }
+        data = ($imported[script] = ImportationData.convert $imported[script])
+        return false unless data && data >= version
+        data.requires.keys.all? { |key| requires_met?(key, data.requires[key]) }
       end
     end
   end
@@ -425,52 +424,90 @@ module CaRaCrAzY
     def log(*args); puts(*args); end if     DEBUG
     def log(*args);         nil; end unless DEBUG
   end
-    
-  class Import < ::Hash
-    def initialize(hash)
-      @hash = hash
+  
+  #=============================================================================
+  # ** ImportationData
+  #-----------------------------------------------------------------------------
+  #  Represents "Script Importing" information, holding number versions a
+  #  required scripts hash.
+  #
+  #  Note: Objects of this class behaves like numbers if used as number, by
+  # assuming the value of its version number.
+  #  Also, objects of this class behaves like hashes too, if used as such.
+  #=============================================================================
+  class ImportationData
+    class << self
+      #-------------------------------------------------------------------------
+      # * Converts data into Importation Data
+      #     data : Can be either a boolean, number or Hash
+      #
+      #     returns: ImportantionData Object if a numver or Hash is passed
+      #     returns: false if data is also false
+      #     returns: The own data if it is an instance of ImportationData
+      #-------------------------------------------------------------------------
+      def convert(data)
+        return false unless data
+        return data if data.is_a? ImportationData
+        ImportationData.new data
+      end
     end
-
+    #---------------------------------------------------------------------------
+    # * Object Initialization
+    #---------------------------------------------------------------------------
+    def initialize(data)
+      @hash     = data.is_a?(Hash) ? data : {}
+      @version  = (@hash[:version ] ||= data.is_a?(Numeric) ? data : 0.00)
+      @requires = (@hash[:requires] ||= {})
+    end
+    #---------------------------------------------------------------------------
+    # * Gets the script's version number
+    #---------------------------------------------------------------------------
+    def version
+      @hash[:version] ||= 0
+    end
+    #---------------------------------------------------------------------------
+    # * Gets the script's required scripts
+    #---------------------------------------------------------------------------
+    def requires
+      @hash[:requires] ||= {}
+    end
+    #---------------------------------------------------------------------------
+    # * Delegates calls version, and then to the hash itself.
+    #---------------------------------------------------------------------------
+    #   This method makes this object behave like its a number if used as number
+    # and make this object behave like a hash if its used like a hash.
+    #   When used as number, it will assume the value of its version number.
+    #---------------------------------------------------------------------------
+    def method_missing(method, *args, &block)
+      return version.send(method, *args, &block) if version.respond_to?(method)
+      return   @hash.send(method, *args, &block) if   @hash.respond_to?(method)
+      super(method, *args, &block)
+    end
+    #---------------------------------------------------------------------------
+    # * Overrides the respond_to? method to inform this method can work as a
+    # number or hash.
+    #---------------------------------------------------------------------------
+    def respond_to?(method, include_private = false)
+      version.respond_to?(method, include_private) ||
+        @hash.respond_to?(method, include_private) ||
+                    super(method, include_private)
+    end
+    #---------------------------------------------------------------------------
+    # * Overrides the is_a? method to inform this method can work as a
+    # number or hash.
+    #---------------------------------------------------------------------------
+    def is_a? (*args)
+      version.is_a?(*args) || @hash.is_a?(*args) || super(*args)
+    end
+    #---------------------------------------------------------------------------
+    # * Overrides the to_s to show the hash contents
+    #---------------------------------------------------------------------------
     def to_s
       @hash.to_s
     end
-
-    def to_i
-      @hash[:version].floor
-    end
-    
-    def to_f
-      @hash[:version]
-    end
-
-    def coerce(other)
-      [self.class.new(@hash[:version]), self]
-    end
-
-    def <=>(other)
-      to_f <=> other.to_f
-    end
-
-    def +(other)
-      self.class.new('|' * (to_f + other.to_f))
-    end
-
-    def -(other)
-      self.class.new('|' * (to_f - other.to_f))
-    end
-
-    def *(other)
-      self.class.new('|' * (to_f * other.to_f))
-    end
-
-    def /(other)
-      self.class.new('|' * (to_f / other.to_f))
-    end
   end
-
-  #$imported[:CCPet] = Import.new $imported[:CCPet]
   
-end if $imported[:CCPet]
+end if ($imported ||= {})[:CCPet]
   
 #-------------------------------------------------------------------------------
 # End of script.
