@@ -439,8 +439,8 @@ module CCPet
       # * Converts data into Importation Data
       #     data : Can be either a boolean, number or Hash
       #
-      #     returns: ImportantionData Object if a numver or Hash is passed
-      #     returns: false if data is also false
+      #     returns: ImportationData Object if data is a Numeric or a Hash
+      #     returns: false if data is false or nil
       #     returns: The own data if it is an instance of ImportationData
       #-------------------------------------------------------------------------
       def convert(data)
