@@ -30,13 +30,13 @@
 }
 
 #===============================================================================
-# ** CaRaCrAzY
+# ** CCPet
 #-------------------------------------------------------------------------------
 #   Module used for Namespacing the Expertise System
 #   Everything about this system is contained inside this module.
 #===============================================================================
 
-module CaRaCrAzY
+module CCPet
   #-----------------------------------------------------------------------------
   # * Debug mode
   #-----------------------------------------------------------------------------
@@ -375,46 +375,44 @@ module CaRaCrAzY
   end
 
   #=============================================================================
-  # ** Get
+  # ** CCPet
   #-----------------------------------------------------------------------------
   #  Module for accessing database references while logging errors
   #=============================================================================
 
-  class ::Get
-    class << self
-      #-------------------------------------------------------------------------
-      # * Easy database actor access
-      #     id: Actor's Database ID
-      #
-      #     returns: the actor from the database
-      #-------------------------------------------------------------------------
-      def actor(id)
-        $game_actors[id] || log("Cannot find actor of index #{id}")
-      end
-      #-------------------------------------------------------------------------
-      # * Easy battle party member access
-      #     id: Actor's position between 0 and 3 in current battle party
-      #
-      #     returns: the actor from the party
-      #-------------------------------------------------------------------------
-      def member(id)
-        $game_party.members[id] || log("Cannot find member of index #{id}")
-      end
-      #-------------------------------------------------------------------------
-      # * Validates script requirements
-      #     script: Symbol used to define the script in the $imported hash
-      #     version: (used only for recursive calls) Minimum version number
-      #
-      #     returns: true if the requirements are met
-      #-------------------------------------------------------------------------
-      def requires_met?(script, version = 0)
-        data = ($imported[script] = ImportationData.convert $imported[script])
-        return false unless data && data >= version
-        data.requires.keys.all? { |key| requires_met?(key, data.requires[key]) }
-      end
+  class << self
+    #---------------------------------------------------------------------------
+    # * Easy database actor access
+    #     id: Actor's Database ID
+    #
+    #     returns: the actor from the database
+    #---------------------------------------------------------------------------
+    def actor(id)
+      $game_actors[id] || log("Cannot find actor of index #{id}")
+    end
+    #---------------------------------------------------------------------------
+    # * Easy battle party member access
+    #     id: Actor's position between 0 and 3 in current battle party
+    #
+    #     returns: the actor from the party
+    #---------------------------------------------------------------------------
+    def member(id)
+      $game_party.members[id] || log("Cannot find member of index #{id}")
+    end
+    #---------------------------------------------------------------------------
+    # * Validates script requirements
+    #     script: Symbol used to define the script in the $imported hash
+    #     version: (used only for recursive calls) Minimum version number
+    #
+    #     returns: true if the requirements are met
+    #---------------------------------------------------------------------------
+    def requires_met?(script, version = 0)
+      data = ($imported[script] = ImportationData.convert $imported[script])
+      return false unless data && data >= version
+      data.requires.keys.all? { |key| requires_met?(key, data.requires[key]) }
     end
   end
-  
+
   class ::Object;  def to_h;      Hash[self]; end; end
   class ::Hash;    def to_h;      self;       end; end
   class ::Numeric; def positive?; self >= 0;  end; end
@@ -506,7 +504,6 @@ module CaRaCrAzY
       @hash.to_s
     end
   end
-  
 end if ($imported ||= {})[:CCPet]
   
 #-------------------------------------------------------------------------------

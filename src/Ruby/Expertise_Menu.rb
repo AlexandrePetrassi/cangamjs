@@ -30,13 +30,13 @@
 }
 
 #===============================================================================
-# ** CaRaCrAzY
+# ** CCPet
 #-------------------------------------------------------------------------------
 #   Module used for Namespacing the Expertise System
 #   Everything about this system is contained inside this module.
 #===============================================================================
 
-module CaRaCrAzY
+module CCPet
 
   #-----------------------------------------------------------------------------
   # * Enables the display of expertise points on main menu
@@ -883,7 +883,7 @@ module CaRaCrAzY
     #  Window for displaying a list of available skills
     #===========================================================================
 
-    class CaRaCrAzY::Window_ExpertiseList
+    class CCPet::Window_ExpertiseList
       #-------------------------------------------------------------------------
       # * Draws a skill's current expertise (base + Total)
       #-------------------------------------------------------------------------
@@ -911,7 +911,7 @@ module CaRaCrAzY
       end
     end
   end if $imported[:CCPet_Expertise_Bonus]
-end if ($imported ||= {})[:CCPet] && Get.requires_met?(:CCPet_Expertise_Menu)
+end if defined?(CCPet) && CCPet.requires_met?(:CCPet_Expertise_Menu)
 
 #-------------------------------------------------------------------------------
 # End of script.

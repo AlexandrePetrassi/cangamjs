@@ -30,13 +30,13 @@
 }
 
 #===============================================================================
-# ** CaRaCrAzY
+# ** CCPet
 #-------------------------------------------------------------------------------
 #   Module used for Namespacing the Expertise System
 #   Everything about this system is contained inside this module.
 #===============================================================================
 
-module CaRaCrAzY
+module CCPet
   
   #-----------------------------------------------------------------------------
   # * Awards Expertise points to actors on Level Up.
@@ -296,7 +296,7 @@ module CaRaCrAzY
       @allocations += value
     end
   end
-end if ($imported ||= {})[:CCPet] && Get.requires_met?(:CCPet_Expertise_Core)
+end if defined?(CCPet) && CCPet.requires_met?(:CCPet_Expertise_Core)
 
 #-------------------------------------------------------------------------------
 # End of script.

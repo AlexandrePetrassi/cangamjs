@@ -30,13 +30,13 @@
 }
 
 #===============================================================================
-# ** CaRaCrAzY
+# ** CCPet
 #-------------------------------------------------------------------------------
 #   Module used for Namespacing the Expertise System
 #   Everything about this system is contained inside this module.
 #===============================================================================
 
-module CaRaCrAzY
+module CCPet
   
   #=============================================================================
   # Symbols used to compose the different bonus notetags.
@@ -78,7 +78,7 @@ module CaRaCrAzY
     # * Object Initialization
     #---------------------------------------------------------------------------
     def initialize(const_name, operation, reduction, neutral_value)
-      @tag           = CaRaCrAzY.const_get("NTAG_#{const_name}", false)
+      @tag           = CCPet.const_get("NTAG_#{const_name}", false)
       @operation     = operation
       @reduction     = reduction
       @neutral_value = neutral_value
@@ -453,7 +453,7 @@ module CaRaCrAzY
       actor && @enabled ? @enabled.(actor, item) : super
     end
   end
-end if ($imported ||= {})[:CCPet] && Get.requires_met?(:CCPet_Expertise_Bonus)
+end if defined?(CCPet) && CCPet.requires_met?(:CCPet_Expertise_Bonus)
 
 #-------------------------------------------------------------------------------
 # End of script.
