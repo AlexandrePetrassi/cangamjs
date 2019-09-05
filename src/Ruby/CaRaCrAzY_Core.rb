@@ -413,6 +413,24 @@ module CCPet
     end
   end
 
+  class << self
+    old_requires_met? = requires_met?
+    def requires_met?(*args)
+      return @memo[args] unless defined? (@memo ||= {})[args]
+      @memo[args] = old_requires_met?.(*args)
+    end
+  end
+
+  class << self
+    old_requires_met? = requires_met?
+    def requires_met?(script, version = 0.0)  
+      result = old_requires_met?.(script, version)
+      status = result ? "SUCCESS" : "FAILURE"
+      puts("Requirements for #{script} version#{version} : #{status}")
+      result
+    ends
+  end if DEBUG
+
   class ::Object;  def to_h;      Hash[self]; end; end
   class ::Hash;    def to_h;      self;       end; end
   class ::Numeric; def positive?; self >= 0;  end; end

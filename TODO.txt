@@ -8,7 +8,6 @@ Rogue
   Support for sneaking.
 
 Expertise
-  Coalesce
   Expertise for enemies
     Create a lunatic notetag for defining the initial expertise
     party expertise bonuses for troops (Scoping party bonuses to troops)
@@ -28,17 +27,19 @@ Expertise
     ( ) Add expertise points exclusive for each view.
     ( ) Add classes as arbitrary views
     ( ) Add Growth formula to classes
-	Add a connection between params and skills for stat allocation
+	( ) Add a connection between params and skills for stat allocation
 
-    CC.actor(id)
-    CC.member(id)
-    CC.class(id)
-    CC.skill(id)
-    CC.item(id)
-    CC.weapon(id)
-    CC.armor(id)
-    CC.enemy(id)
-    CC.troop(id)
+    get log exc
+    (x) ( ) ( ) CC.requires(Script)
+    (x) (x) ( ) CC.actor(id)
+    (x) (x) ( ) CC.member(id)
+    ( ) ( ) ( ) CC.class(id)
+    ( ) ( ) ( ) CC.skill(id)
+    ( ) ( ) ( ) CC.item(id)
+    ( ) ( ) ( ) CC.weapon(id)
+    ( ) ( ) ( ) CC.armor(id)
+    ( ) ( ) ( ) CC.enemy(id)
+    ( ) ( ) ( ) CC.troop(id)
 
 ScopeChange
   FF-like all/single change by going full left
