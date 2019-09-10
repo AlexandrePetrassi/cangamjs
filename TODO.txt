@@ -8,6 +8,8 @@ Rogue
   Support for sneaking.
 
 Expertise
+  CHECK IF ITS POSSIBLE TO USE THE DELEGATE CLASS FROM STDLIB
+
   Expertise for enemies
     Create a lunatic notetag for defining the initial expertise
     party expertise bonuses for troops (Scoping party bonuses to troops)
