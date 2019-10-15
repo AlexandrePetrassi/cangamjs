@@ -529,41 +529,69 @@ end if ($imported ||= {})[:CCPet]
 #-------------------------------------------------------------------------------
 
 class Class
-  def ovr(m, *args, &n)
+  def __find_suitable_name(base_name)
     nesting = 0
-    newname = ""
     loop do
-      newname = ("overriden#{nesting}#{m}").to_sym
-      nesting += 1
-      break unless instance_methods.include? newname
+      new_name =  ("overriden#{nesting+=1}#{base_name}").to_sym
+      return new_name unless instance_methods.include? new_name
     end
+  end
 
-    alias_method(newname, m)
-    define_method(m, *args) do
-      r = method(newname).(*args)
+  def middle_cut(m, *args, &n)
+    new_name = __find_suitable_name(m)
+    alias_method(new_name, m)
+    define_method(m, *args) do |*args|
+      r = method(new_name).(*args)
       n.(*args)
       r
     end
   end
+
+  def before_cut(m, *args, &n)
+    new_name = __find_suitable_name(m)
+    alias_method(new_name, m)
+    define_method(m, *args) do |*args|
+      n.(*args)
+      method(new_name).(*args)
+  end
+
+  def after_cut(m, *args, &n)
+    new_name = __find_suitable_name(m)
+    alias_method(new_name, m)
+    define_method(m, *args) do |*args|
+      method(new_name).(*args)
+      n.(*args)
+  end
+
+  def around_cut(m, *args, &n)
+    new_name = __find_suitable_name(m)
+    alias_method(new_name, m)
+    define_method(m, *args) do |*args|
+      r = method(new_name).(*args)
+      n.(*args)
+      r
+    end
+  end
+
 end
 
 class Ameba
-  def olds
-    puts "oldera"
+  def olds(*args)
+    puts args[0]
   end
 end
 
 class Ameba
-  ovr(:olds) do
-    puts "newzera"
+  after_cut :olds do |str|
+    puts str*2
   end
 end
 
 class Ameba
-  ovr(:olds) do
-    puts "ultimate_newzeranel"
+  after_cut :olds do |*args|
+    puts args[0] + "asda"
   end
 end
 
 a = Ameba.new
-a.olds
+a.olds("oldson")
