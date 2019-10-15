@@ -527,3 +527,43 @@ end if ($imported ||= {})[:CCPet]
 #-------------------------------------------------------------------------------
 # End of script.
 #-------------------------------------------------------------------------------
+
+class Class
+  def ovr(m, *args, &n)
+    nesting = 0
+    newname = ""
+    loop do
+      newname = ("overriden#{nesting}#{m}").to_sym
+      nesting += 1
+      break unless instance_methods.include? newname
+    end
+
+    alias_method(newname, m)
+    define_method(m, *args) do
+      r = method(newname).(*args)
+      n.(*args)
+      r
+    end
+  end
+end
+
+class Ameba
+  def olds
+    puts "oldera"
+  end
+end
+
+class Ameba
+  ovr(:olds) do
+    puts "newzera"
+  end
+end
+
+class Ameba
+  ovr(:olds) do
+    puts "ultimate_newzeranel"
+  end
+end
+
+a = Ameba.new
+a.olds
