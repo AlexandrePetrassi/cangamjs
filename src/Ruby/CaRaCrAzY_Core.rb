@@ -547,51 +547,41 @@ class Class
     end
   end
 
-  def before_cut(m, *args, &n)
-    new_name = __find_suitable_name(m)
-    alias_method(new_name, m)
-    define_method(m, *args) do |*args|
-      n.(*args)
-      method(new_name).(*args)
-  end
-
-  def after_cut(m, *args, &n)
-    new_name = __find_suitable_name(m)
-    alias_method(new_name, m)
-    define_method(m, *args) do |*args|
-      method(new_name).(*args)
-      n.(*args)
-  end
-
   def around_cut(m, *args, &n)
     new_name = __find_suitable_name(m)
     alias_method(new_name, m)
-    define_method(m, *args) do |*args|
-      r = method(new_name).(*args)
-      n.(*args)
-      r
+    define_method(m, *args) do |*args, &block|;
+      n.(method(new_name), *args, &block);
     end
   end
-
 end
 
-class Ameba
-  def olds(*args)
-    puts args[0]
+class Clazz
+  def olds(str)
+    puts str
+    yield
+    return 4
   end
 end
 
-class Ameba
-  after_cut :olds do |str|
+Clazz.new.olds("very old") { puts "very old block" }
+
+class Clazz
+  around_cut :olds do |old, str, &block|
+    a =  old.call str, &block
     puts str*2
+    block.call
+    a
   end
 end
 
-class Ameba
-  after_cut :olds do |*args|
-    puts args[0] + "asda"
+class Clazz
+  around_cut :olds do |old, str, other, &block|
+    a = old.call(str) { puts "fezes"}
+    puts str + other
+    block.call
+    a
   end
 end
 
-a = Ameba.new
-a.olds("oldson")
+Clazz.new.olds("oldson", "asdasda") { puts "blockson"}
