@@ -528,31 +528,69 @@ end if ($imported ||= {})[:CCPet]
 # End of script.
 #-------------------------------------------------------------------------------
 
-class Class
-  def __find_suitable_name(base_name)
-    nesting = 0
-    loop do
-      new_name =  ("overriden#{nesting+=1}#{base_name}").to_sym
-      return new_name unless instance_methods.include? new_name
+class CrossCut
+
+  def initialize(clazz)
+    @clazz = clazz
+  end
+
+  def around(m, *args, &n)
+    new_name = next_name(m)
+    @clazz.alias_method(new_name, m)
+    @clazz.define_method(m, *args) do |*args, &block|;
+      n.(method(new_name), *args, &block);
     end
   end
 
-  def middle_cut(m, *args, &n)
-    new_name = __find_suitable_name(m)
-    alias_method(new_name, m)
-    define_method(m, *args) do |*args|
-      r = method(new_name).(*args)
-      n.(*args)
+  def after(m, *args, &n)
+    new_name = next_name(m)
+    @clazz.alias_method(new_name, m)
+    @clazz.define_method(m, *args) do |*args, &block|;
+      r = method(new_name).(*args, &block)
+      n.(r, *args, &block);
       r
     end
   end
 
-  def around_cut(m, *args, &n)
-    new_name = __find_suitable_name(m)
-    alias_method(new_name, m)
-    define_method(m, *args) do |*args, &block|;
-      n.(method(new_name), *args, &block);
+  def after!(m, *args, &n)
+    new_name = next_name(m)
+    @clazz.alias_method(new_name, m)
+    @clazz.define_method(m, *args) do |*args, &block|;
+      r = method(new_name).(*args, &block)
+      n.(r, *args, &block);
     end
+  end
+
+  def before(m, *args, &n)
+    new_name = next_name(m)
+    @clazz.alias_method(new_name, m)
+    @clazz.define_method(m, *args) do |*args, &block|;
+      n.(*args, &block);
+      method(new_name).(*args, &block)
+    end
+  end
+
+  private
+
+  def next_name(base)
+    name = base
+    nesting = 0
+    name = calc_name(base, nesting+=1) while taken?(name)
+    name
+  end
+  
+  def calc_name(base, nesting)
+    "cut#{nesting}_#{base}".to_sym
+  end
+
+  def taken?(name)
+    @clazz.instance_methods.include? name
+  end
+end
+
+class Class
+  def cut
+    @cross_cut ||= CrossCut.new(self)
   end
 end
 
@@ -567,7 +605,7 @@ end
 Clazz.new.olds("very old") { puts "very old block" }
 
 class Clazz
-  around_cut :olds do |old, str, &block|
+  cut.around :olds do |old, str, &block|
     a =  old.call str, &block
     puts str*2
     block.call
@@ -576,11 +614,20 @@ class Clazz
 end
 
 class Clazz
-  around_cut :olds do |old, str, other, &block|
+  cut.around :olds do |old, str, other, &block|
     a = old.call(str) { puts "fezes"}
     puts str + other
     block.call
     a
+  end
+
+  cut.before :olds do |str, other, &block|
+    puts "BEFORE"
+  end
+
+  cut.after :olds do |r, str, other, &block|
+    puts "After:#{r}"
+    next 2
   end
 end
 
