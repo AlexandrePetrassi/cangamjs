@@ -534,38 +534,38 @@ class CrossCut
     @clazz = clazz
   end
 
-  def around(m, *args, &n)
-    new_name = next_name(m)
-    @clazz.alias_method(new_name, m)
-    @clazz.define_method(m, *args) do |*args, &block|;
-      n.(method(new_name), *args, &block);
+  def around(meth, &advice)
+    new_name = next_name(meth)
+    @clazz.alias_method(new_name, meth)
+    @clazz.define_method(meth) do |*args, &block|
+      advice.(method(new_name), *args, &block)
     end
   end
 
-  def after(m, *args, &n)
-    new_name = next_name(m)
-    @clazz.alias_method(new_name, m)
-    @clazz.define_method(m, *args) do |*args, &block|;
+  def after(meth, &advice)
+    new_name = next_name(meth)
+    @clazz.alias_method(new_name, meth)
+    @clazz.define_method(meth) do |*args, &block|
       r = method(new_name).(*args, &block)
-      n.(r, *args, &block);
+      advice.(r, *args, &block)
       r
     end
   end
 
-  def after!(m, *args, &n)
-    new_name = next_name(m)
-    @clazz.alias_method(new_name, m)
-    @clazz.define_method(m, *args) do |*args, &block|;
+  def after!(meth, &advice)
+    new_name = next_name(meth)
+    @clazz.alias_method(new_name, meth)
+    @clazz.define_method(meth) do |*args, &block|
       r = method(new_name).(*args, &block)
-      n.(r, *args, &block);
+      advice.(r, *args, &block)
     end
   end
 
-  def before(m, *args, &n)
-    new_name = next_name(m)
-    @clazz.alias_method(new_name, m)
-    @clazz.define_method(m, *args) do |*args, &block|;
-      n.(*args, &block);
+  def before(meth, &advice)
+    new_name = next_name(meth)
+    @clazz.alias_method(new_name, meth)
+    @clazz.define_method(meth) do |*args, &block|
+      advice.(*args, &block)
       method(new_name).(*args, &block)
     end
   end
