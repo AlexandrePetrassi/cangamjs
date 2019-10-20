@@ -540,8 +540,8 @@ class CrossCut
 
   def _around(meth, &advice)
     new_name = next_name(meth)
-    @clazz.alias_method(new_name, meth)
-    @clazz.define_method(meth) do |*args, &block|
+    @clazz.send :alias_method, new_name, meth
+    @clazz.send :define_method, meth do |*args, &block|
       advice.(method(new_name), *args, &block)
     end
   end
@@ -552,8 +552,8 @@ class CrossCut
 
   def _after(meth, &advice)
     new_name = next_name(meth)
-    @clazz.alias_method(new_name, meth)
-    @clazz.define_method(meth) do |*args, &block|
+    @clazz.send :alias_method, new_name, meth
+    @clazz.send :define_method, meth do |*args, &block|
       result = method(new_name).(*args, &block)
       advice.(result, *args, &block)
       result
@@ -566,8 +566,8 @@ class CrossCut
 
   def _after!(meth, &advice)
     new_name = next_name(meth)
-    @clazz.alias_method(new_name, meth)
-    @clazz.define_method(meth) do |*args, &block|
+    @clazz.send :alias_method, new_name, meth
+    @clazz.send :define_method, meth do |*args, &block|
       result = method(new_name).(*args, &block)
       advice.(result, *args, &block)
     end
@@ -579,8 +579,8 @@ class CrossCut
 
   def _before(meth, &advice)
     new_name = next_name(meth)
-    @clazz.alias_method(new_name, meth)
-    @clazz.define_method(meth) do |*args, &block|
+    @clazz.send :alias_method, new_name, meth
+    @clazz.send :define_method, meth do |*args, &block|
       advice.(*args, &block)
       method(new_name).(*args, &block)
     end
