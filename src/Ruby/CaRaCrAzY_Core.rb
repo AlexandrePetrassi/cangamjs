@@ -546,9 +546,9 @@ class CrossCut
     new_name = next_name(meth)
     @clazz.alias_method(new_name, meth)
     @clazz.define_method(meth) do |*args, &block|
-      r = method(new_name).(*args, &block)
-      advice.(r, *args, &block)
-      r
+      result = method(new_name).(*args, &block)
+      advice.(result, *args, &block)
+      result
     end
   end
 
@@ -556,8 +556,8 @@ class CrossCut
     new_name = next_name(meth)
     @clazz.alias_method(new_name, meth)
     @clazz.define_method(meth) do |*args, &block|
-      r = method(new_name).(*args, &block)
-      advice.(r, *args, &block)
+      result = method(new_name).(*args, &block)
+      advice.(result, *args, &block)
     end
   end
 
