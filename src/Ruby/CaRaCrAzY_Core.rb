@@ -534,7 +534,11 @@ class CrossCut
     @clazz = clazz
   end
 
-  def around(meth, &advice)
+  def around(*meths, &advice)
+    meths.map { |meth| _around(meth, &advice)}
+  end
+
+  def _around(meth, &advice)
     new_name = next_name(meth)
     @clazz.alias_method(new_name, meth)
     @clazz.define_method(meth) do |*args, &block|
@@ -542,7 +546,11 @@ class CrossCut
     end
   end
 
-  def after(meth, &advice)
+  def after(*meths, &advice)
+    meths.map { |meth| _after(meth, &advice)}
+  end
+
+  def _after(meth, &advice)
     new_name = next_name(meth)
     @clazz.alias_method(new_name, meth)
     @clazz.define_method(meth) do |*args, &block|
@@ -552,7 +560,11 @@ class CrossCut
     end
   end
 
-  def after!(meth, &advice)
+  def after!(*meths, &advice)
+    meths.map { |meth| _after!(meth, &advice)}
+  end
+
+  def _after!(meth, &advice)
     new_name = next_name(meth)
     @clazz.alias_method(new_name, meth)
     @clazz.define_method(meth) do |*args, &block|
@@ -561,7 +573,11 @@ class CrossCut
     end
   end
 
-  def before(meth, &advice)
+  def before(*meths, &advice)
+    meths.map { |meth| _before(meth, &advice)}
+  end
+
+  def _before(meth, &advice)
     new_name = next_name(meth)
     @clazz.alias_method(new_name, meth)
     @clazz.define_method(meth) do |*args, &block|
@@ -629,6 +645,15 @@ class Clazz
     puts "After:#{r}"
     next 2
   end
+
+  def another()
+    puts "doing shit"
+  end
+
+  cut.after :olds, :another do 
+    puts "logging"
+  end
 end
 
 Clazz.new.olds("oldson", "asdasda") { puts "blockson"}
+Clazz.new.another()
