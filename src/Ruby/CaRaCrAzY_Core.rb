@@ -528,6 +528,43 @@ end if ($imported ||= {})[:CCPet]
 # End of script.
 #-------------------------------------------------------------------------------
 
+class Pointcut
+
+  attr_reader :strategy
+  attr_reader :current_contexts
+  attr_reader :joinPoints
+
+  def initialize(strategy)
+    @strategy = strategy
+    @joinPoints = {}
+  end
+  def at(*jps, &advice)
+    current_contexts.map { |ctx| (joinPoints[ctx] ||= []).push(*jps) }
+    return self unless advice
+    @joinPoints.keys.map do |ctx|
+      CrossCut
+        .new(Kernel.const_get(ctx))
+        .method(strategy).(*joinPoints[ctx], &advice)
+    end
+  end
+  def andAlso(*contexts)
+    @current_contexts = contexts
+    self
+  end
+end
+
+class Aspect
+  def self.cut_around(*contexts)
+    Pointcut.new(:around).andAlso(*contexts)
+  end
+  def self.cut_after(*contexts)
+    Pointcut.new(:after).andAlso(*contexts)
+  end
+  def self.cut_before(*contexts)
+    Pointcut.new(:before).andAlso(*contexts)
+  end
+end
+
 class CrossCut
 
   def initialize(clazz)
@@ -657,3 +694,17 @@ end
 
 Clazz.new.olds("oldson", "asdasda") { puts "blockson"}
 Clazz.new.another()
+
+class Foo
+  def bar;end
+end
+
+class TestAspect < Aspect
+    cut_around(:Clazz).at(:olds)
+    .andAlso(:Foo).at(:bar) do |jp, *args, &block|
+      puts "WHATAHELL"
+  end
+end
+
+Foo.new.bar
+Clazz.new.olds
