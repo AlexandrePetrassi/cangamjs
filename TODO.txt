@@ -32,16 +32,16 @@ Expertise
 	( ) Add a connection between params and skills for stat allocation
 
     get log exc
-    (x) ( ) ( ) CC.requires(Script)
-    (x) (x) ( ) CC.actor(id)
-    (x) (x) ( ) CC.member(id)
-    ( ) ( ) ( ) CC.class(id)
-    ( ) ( ) ( ) CC.skill(id)
-    ( ) ( ) ( ) CC.item(id)
-    ( ) ( ) ( ) CC.weapon(id)
-    ( ) ( ) ( ) CC.armor(id)
-    ( ) ( ) ( ) CC.enemy(id)
-    ( ) ( ) ( ) CC.troop(id)
+    (x) ( ) ( ) CCPet.requires(Script)
+    (x) (x) ( ) Find.actor(id)
+    (x) (x) ( ) Find.member(id)
+    ( ) ( ) ( ) Find.class(id)
+    ( ) ( ) ( ) Find.skill(id)
+    ( ) ( ) ( ) Find.item(id)
+    ( ) ( ) ( ) Find.weapon(id)
+    ( ) ( ) ( ) Find.armor(id)
+    ( ) ( ) ( ) Find.enemy(id)
+    ( ) ( ) ( ) Find.troop(id)
 
 ScopeChange
   FF-like all/single change by going full left
